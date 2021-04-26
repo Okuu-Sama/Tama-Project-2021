@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class RhythmDisplay : MonoBehaviour
 {
-    public Text state;
+    public Text stateText;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +20,6 @@ public class RhythmDisplay : MonoBehaviour
 
     public void ShowStatus( RhythmGameLoop.GameState gs )
     {
-        state.text = gs.ToString();
+        stateText.text = gs.ToString();
     }
 }
