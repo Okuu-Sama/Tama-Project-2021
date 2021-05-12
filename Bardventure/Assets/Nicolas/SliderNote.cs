@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SliderNote : MonoBehaviour, INote
+public class SliderNote : INote
 {
     private float duration;
     private Vector3[] path;
@@ -22,6 +22,7 @@ public class SliderNote : MonoBehaviour, INote
         throw new System.NotImplementedException();
     }
 
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -33,4 +34,5 @@ public class SliderNote : MonoBehaviour, INote
     {
         
     }
+    */
 }

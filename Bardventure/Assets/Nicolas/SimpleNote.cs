@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleNote : MonoBehaviour, INote
+public class SimpleNote : INote
 {
     private bool type; // 0 is a normal note | 1 is a dodge note
 
@@ -15,7 +15,7 @@ public class SimpleNote : MonoBehaviour, INote
     public float Velocity { get => velocity; set => velocity = value; }
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     
-
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -26,5 +26,5 @@ public class SimpleNote : MonoBehaviour, INote
     void Update()
     {
         
-    }
+    }*/
 }

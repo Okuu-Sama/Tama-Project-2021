@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpecialNote : MonoBehaviour, INote
+public class SpecialNote : INote
 {
     private float duration;
     private bool type;
@@ -17,6 +17,7 @@ public class SpecialNote : MonoBehaviour, INote
     public float Duration { get => duration; set => duration = value; }
     public bool Type { get => type; set => type = value; }
 
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -28,4 +29,5 @@ public class SpecialNote : MonoBehaviour, INote
     {
         
     }
+    */
 }
