@@ -5,16 +5,23 @@ using UnityEngine;
 public class NoteBehavior : Display 
 {
 
+    private float distance = 0; 
     // Start is called before the first frame update
     void Start()
     {
-        velocity *= Time.deltaTime;
+        Time.timeScale = 1; 
+        distance = Time.deltaTime * velocity; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * velocity, Space.World);
-        Debug.Log(velocity); 
+        float step = velocity * Time.deltaTime; // calculate distance to move
+
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(0.0f, -10, 0.0f), step);
+        Debug.Log("Position Sphere : "+transform.position +" with step: "+step); 
+
+        //transform.Translate(Vector3.down * distance, Space.World);
+        //Debug.Log(velocity); 
     }
 }

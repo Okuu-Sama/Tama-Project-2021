@@ -5,35 +5,38 @@ using UnityEngine;
 public class Display : MonoBehaviour
 {
 
-    private float timer = 0.0f;
+    public float timer = 0.0f;
     private int counter = 0;
     GameObject note;
     public GameObject myPrefab;
-    protected float velocity = 6; 
+    public float velocity = 2.0f; // bpm --> nombre de pulsation par mesure 
+    public float spawningLocation = 20;
+    
+    public float barLocation = 0; 
 
 
- 
-    private readonly float[] time = new float[] { 0, 0.6f, 1.2f, 1.7999999999999998f, 2.4f, 3, 3.5999999999999996f, 4.2f, 4.8f, 5.3999999999999995f};
-    private readonly float[] duration = new float[] { 0.6f, 0.6f, 0.6f, 0.6f, 1.1999999999999997f, 0.6f, 1.2f, 0.6f, 0.6f, 0.6f};
+
+    private readonly float[] time = new float[] { 0, 0.5f, 1, 1.5f, 2, 3, 4, 4.5f, 5, 5.5f};
+    private readonly float[] duration = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 1, 1, 0.5f, 0.5f, 0.5f, 0.5f};
 
 
     // Start is called before the first frame update
     void Start()
     {
-
-        Time.timeScale = 0.6f; //reference music was 100 bpm --> 600 beats per sec 
+        Time.timeScale = 1f; //reference music was 100 bpm --> 600 beats per sec 
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-        
+
+        Debug.Log("Display.timer " + timer); 
         while(counter < time.Length && timer >= time[counter])
         {
-            Debug.Log("Note created");
-            note = Instantiate(myPrefab, new Vector3(counter%2, 10, 10), Quaternion.identity) as GameObject;
-            Destroy(note, duration[counter]); 
+            //Debug.Log("Note created");
+            note = Instantiate(myPrefab, new Vector3(counter%2, spawningLocation, 0), Quaternion.identity) as GameObject;
+            //Destroy(note, duration[counter]); 
             counter += 1; 
 
         }
