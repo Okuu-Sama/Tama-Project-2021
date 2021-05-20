@@ -31,12 +31,12 @@ public class Display : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        Debug.Log("Display.timer " + timer); 
+        //Debug.Log("Display.timer " + timer); 
         while(counter < time.Length && timer >= time[counter])
         {
             //Debug.Log("Note created");
             note = Instantiate(myPrefab, new Vector3(counter%2, spawningLocation, 0), Quaternion.identity) as GameObject;
-            //Destroy(note, duration[counter]); 
+           
             counter += 1; 
 
         }
@@ -48,20 +48,11 @@ public class Display : MonoBehaviour
 
         GameObject note = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         note.transform.position = new Vector3(counter+1, 1, 1);
-        //Destroy(note, duration[counter]); 
+         
         return note; 
     }
 
-    // Displace component on the y axis from top to bottom
-    void DisplaceVerticallyGameObject( GameObject component, float velocity)
-    {
-    
-        if (component != null)
-        {
-            component.transform.Translate(Vector3.down * velocity, Space.World);
-        }
-           
-    }
+
 }
 
 

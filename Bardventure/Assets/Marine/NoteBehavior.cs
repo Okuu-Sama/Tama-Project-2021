@@ -4,24 +4,38 @@ using UnityEngine;
 
 public class NoteBehavior : Display 
 {
+    //Time in second to indicate after how much time should the object be destroyed when the Destroy function is called
+    private float destroyObjectIn = 0.2f; 
 
-    private float distance = 0; 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1; 
-        distance = Time.deltaTime * velocity; 
+         
     }
 
     // Update is called once per frame
     void Update()
     {
+        #region Move the sphere
         float step = velocity * Time.deltaTime; // calculate distance to move
-
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(0.0f, -10, 0.0f), step);
-        Debug.Log("Position Sphere : "+transform.position +" with step: "+step); 
+        //Debug.Log("Position Sphere : "+transform.position +" with step: "+step); 
+        #endregion
 
-        //transform.Translate(Vector3.down * distance, Space.World);
-        //Debug.Log(velocity); 
+
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collision");
+
+        if (other.gameObject.tag == "Bar")
+            Destroy(this.gameObject, destroyObjectIn); 
+
     }
 }
+
+
+
