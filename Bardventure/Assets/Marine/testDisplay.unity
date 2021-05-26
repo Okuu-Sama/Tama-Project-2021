@@ -371,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   myPrefab: {fileID: 0}
-  velocity: 7.2
+  SliderPrefab: {fileID: 0}
   spawningLocation: 6
   barLocation: 0
 --- !u!1 &1587468962
@@ -405,7 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   myPrefab: {fileID: 4350244721410190285, guid: 6cf3e437b791f6446ad77e4522e2f1f3, type: 3}
-  velocity: 7.2
+  SliderPrefab: {fileID: 5495466406230057460, guid: 463e1068683ee6145a2c5601c3ac35d6, type: 3}
   spawningLocation: 6
   barLocation: 0
 --- !u!4 &1587468964

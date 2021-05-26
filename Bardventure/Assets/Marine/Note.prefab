@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2149010974572240552}
   m_Layer: 0
   m_Name: Note
-  m_TagString: Note
+  m_TagString: SimpleNote
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,8 +111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   myPrefab: {fileID: 0}
-  velocity: 7.2
-  spawningLocation: 20
+  SliderPrefab: {fileID: 0}
+  spawningLocation: 6
   barLocation: 0
 --- !u!54 &2149010974572240552
 Rigidbody:
