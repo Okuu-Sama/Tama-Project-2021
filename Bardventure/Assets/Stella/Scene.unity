@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &95849738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ MonoBehaviour:
   threshold: 0.05
   skeleton: {fileID: 397827697}
   gestures:
-  - name: Thumbs Up
+  - name: Thumbs_Up
     fingerDatas:
     - {x: 0, y: 0, z: 0}
     - {x: 0, y: 0, z: 0}
@@ -587,7 +587,7 @@ MonoBehaviour:
     onRecognized:
       m_PersistentCalls:
         m_Calls: []
-  - name: Victory sign
+  - name: Victory_sign
     fingerDatas:
     - {x: 0, y: 0, z: 0}
     - {x: 0, y: 0, z: 0}
@@ -616,7 +616,7 @@ MonoBehaviour:
     onRecognized:
       m_PersistentCalls:
         m_Calls: []
-  - name: Clenched
+  - name: Closed
     fingerDatas:
     - {x: 0, y: 0, z: 0}
     - {x: 0, y: 0, z: 0}

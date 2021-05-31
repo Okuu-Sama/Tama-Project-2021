@@ -25,13 +25,13 @@ public class GestureTest: MonoBehaviour
 
     //Special gesture variables
 
-    bool firstCondition = false;
-    bool secondCondition = false;
-    bool thirdCondition = false;
-    bool hasRecognizedClenched = false;
-    bool hasRecognizedOpen = false;
-    float openTime = 0;
-    float closeTime = 0;
+    private bool wasClosedCondition = false;
+    private bool isOpenedAfterCondition = false;
+    private bool timingRespectedCondition = false;
+    private bool hasRecognizedClenched = false;
+    private bool hasRecognizedOpen = false;
+    private float closingTime = 0;
+    private float openingTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +50,7 @@ public class GestureTest: MonoBehaviour
         }
 
         fingerBones = new List<OVRBone>(skeleton.Bones);
-        specialGesture = SpecialGestureDetection();
+        //specialGesture = SpecialGestureDetection();
         /*Gesture currentGesture = Recognize();
         bool hasRecognized = !currentGesture.Equals(new Gesture());
         if (hasRecognized && !currentGesture.Equals(previousGesture))
@@ -79,7 +79,7 @@ public class GestureTest: MonoBehaviour
         gestures.Add(g);
     }
 
-    public Gesture Recognize() 
+    private Gesture Recognize() 
     {
         Gesture currentGesture = new Gesture();
         float currentMin = Mathf.Infinity;
@@ -112,7 +112,7 @@ public class GestureTest: MonoBehaviour
     }
 
 
-    public bool SpecialGestureDetection() 
+    public bool SpecialGestureDetection(float time)
     {
         bool executed = false;
 
@@ -127,47 +127,59 @@ public class GestureTest: MonoBehaviour
             Debug.Log("Gesture found:" + currentGesture.name);
             previousGesture = currentGesture;
             currentGesture.onRecognized.Invoke();
-            if (firstCondition)
+            if (wasClosedCondition)
             {
                 if (hasRecognizedOpen)
                 {
                     Debug.Log("Second condition validated");
-                    closeTime = Time.time;
-                    Debug.Log("Closed for " + (closeTime - openTime));
-                    secondCondition = true;
+                    openingTime = Time.time;
+                    Debug.Log("Closed for " + (openingTime - closingTime));
+                    isOpenedAfterCondition = true;
+
+                    Debug.Log("Comparing if " + (openingTime - closingTime) + ">" + (time * 1.1) + " and " + (openingTime - closingTime) + "<" + (time * 0.9) );
+                    if ((openingTime - closingTime) < (time * 1.1) && (openingTime - closingTime) > (time * 0.9))
+                    { //10% TIMING error
+                        Debug.Log("Third condition validated");
+                        timingRespectedCondition = true;
+                    }
 
                 }
                 else
                 {
-                    firstCondition = false;
+                    wasClosedCondition = false;
 
                 }
             }
             
-            if (hasRecognizedClenched && !firstCondition)
+            if (hasRecognizedClenched && !wasClosedCondition)
             {
-                openTime = Time.time;
-                firstCondition = true;
+                closingTime = Time.time;
+                wasClosedCondition = true;
                 Debug.Log("First condition validated");
+                
+                
 
             }
 
-            Debug.Log("First condition is: " + firstCondition);
+
+            Debug.Log("First condition is: " + wasClosedCondition);
             
 
-            Debug.Log("Second condition is: " + secondCondition);
+            Debug.Log("Second condition is: " + isOpenedAfterCondition);
+            Debug.Log("Third condition is: " + timingRespectedCondition);
         }
 
 
 
         
         
-        if (secondCondition) 
+        if (isOpenedAfterCondition && timingRespectedCondition) 
         {
             executed = true;
         }
 
-        secondCondition = false;
+        isOpenedAfterCondition = false;
+        timingRespectedCondition = false;
         return executed;
     }
 }

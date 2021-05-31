@@ -7,6 +7,8 @@ public class GestureDetected : MonoBehaviour
 {
     public Text m_MyText;
     private SpecialNote test = new SpecialNote();
+    private GameObject gestureRecognition;
+    private GestureTest myGestureTestComp;
 
     public bool rightGesture(INote note) {
 
@@ -27,7 +29,8 @@ public class GestureDetected : MonoBehaviour
             }
         } else if (note is SpecialNote) {
             m_MyText.text = "Special Note detected!";
-            if (Input.GetKey(KeyCode.B))
+            
+            if (myGestureTestComp.SpecialGestureDetection(((SpecialNote)note).Time))
             {
                 m_MyText.text = "Right gesture for special note";
                 return true;
@@ -43,7 +46,10 @@ public class GestureDetected : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gestureRecognition = GameObject.Find("GestureTest");
+        myGestureTestComp = gestureRecognition.GetComponent<GestureTest>();
         m_MyText.text = "No note detected";
+        test.Time = 10f;
         
     }
 
