@@ -35,7 +35,6 @@ public class Display : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f; //reference music was 100 bpm --> 600 beats per sec 
-        Debug.Log("Start Display " + velocity);
 
     }
 

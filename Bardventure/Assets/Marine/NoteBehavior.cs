@@ -8,12 +8,9 @@ public class NoteBehavior : Display
     public float destroyObjectIn;
 
     private Vector3 finalPosition;
-    
     private float startSpawning;
-    private float rotationOf;
-
-    private float m1, m2; //Slopes 
-    public Quaternion target; 
+ 
+    private Quaternion target; 
 
     // Start is called before the first frame update
     void Start()
@@ -21,19 +18,22 @@ public class NoteBehavior : Display
         Time.timeScale = 1;
         startSpawning = -4 * Mathf.Log(spawningLocation); //to get starting z 
 
-        m1 = 0.0f; //-Mathf.Exp(-startSpawning / 4) / 4;
+        
 
         if (this.gameObject.tag == "SliderNote")
         {
+            float m1, m2; //Slopes 
+            float rotationOf = 0.0f;
+            m1 = 0.0f; 
             // Smoothly tilts a transform towards a target rotation.
             // Rotate the cube by converting the angles into a quaternion.
-            //target = Quaternion.Euler(-90, 0, 0);
-           
 
-            m2 = -Mathf.Exp(-10 / 4) / 4;
+            float final_z = 10.0f; 
+ 
+            m2 = -Mathf.Exp(-final_z / 4) / 4;
             rotationOf = Mathf.Abs((m2 - m1) / (1 + m1 * m2));
             target = Quaternion.Euler(-90-Mathf.Atan(rotationOf) * (180 / Mathf.PI), 0, 0);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, target, velocity* Time.deltaTime);
+            
         }
 
         
@@ -43,13 +43,13 @@ public class NoteBehavior : Display
     void Update()
     {
         //Debug.Log("Note behavior " + velocity);
-        #region Move the sphere
+        #region Move the GameObject
         float step = velocity * Time.deltaTime; // calculate distance to move
  
         //Debug.Log("Note behavior step " + step);
         startSpawning += step;
 
-        #region vertical trajectory
+        #region vertical trajectory NOT USED
         //finalPosition.x = this.transform.position.x;
         //finalPosition.y = -10.0f; 
         //finalPosition.z = this.transform.position.x;
@@ -62,33 +62,13 @@ public class NoteBehavior : Display
         transform.position = finalPosition;
         #endregion
 
+        #endregion
 
-        /*
-        if (this.gameObject.tag == "SliderNote")
-        {
-            //rotation 
+        #region rotate if GameObject is type SliderNote
 
-            m2 = -Mathf.Exp(-finalPosition.z / 4)/4; // Slope of the tangent line at current position on the curve
-            rotationOf = Mathf.Abs((m2 - m1) / (1 + m1 * m2));
-
-            Debug.Log("Slider "+m1 + " " + m2 +" "+rotationOf);
-
-            //Debug.Log("Slider rotation " + transform.rotation);
-
-            //transform.Rotate(m2, 0.0f, 0.0f, Space.World);
-
-            //transform.Rotate(-Mathf.Atan(rotationOf) * (180 / Mathf.PI), 0.0f, 0.0f, Space.World);
-            m1 = m2;
-
-        }
-        */
-        
         if (this.gameObject.tag == "SliderNote")
             transform.rotation = Quaternion.Slerp(transform.rotation, target, step);
-        
-
-
-        //transform.position = Vector3.MoveTowards(transform.position, finalPosition, step);
+       
         //Debug.Log("Position Sphere : "+transform.position +" with step: "+step); 
         #endregion
 
