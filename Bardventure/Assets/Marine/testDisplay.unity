@@ -307,7 +307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143128028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.3, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -369,11 +369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60c991010023fe41b499f757927dc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   myPrefab: {fileID: 0}
   SliderPrefab: {fileID: 0}
-  spawningLocation: 6
-  barLocation: 0
 --- !u!1 &1587468962
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,11 +400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8054027cc886e924fbe45971efba54c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   myPrefab: {fileID: 4350244721410190285, guid: 6cf3e437b791f6446ad77e4522e2f1f3, type: 3}
   SliderPrefab: {fileID: 5495466406230057460, guid: 463e1068683ee6145a2c5601c3ac35d6, type: 3}
-  spawningLocation: 6
-  barLocation: 0
 --- !u!4 &1587468964
 Transform:
   m_ObjectHideFlags: 0
