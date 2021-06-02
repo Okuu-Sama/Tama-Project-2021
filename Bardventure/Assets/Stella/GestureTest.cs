@@ -55,7 +55,7 @@ public class GestureTest: MonoBehaviour
         bool hasRecognized = !currentGesture.Equals(new Gesture());
         if (hasRecognized && !currentGesture.Equals(previousGesture))
         {
-            Debug.Log("Gesture found:" + currentGesture.name + "excuted for " + Time.timeSinceLevelLoad);
+            Debug.Log("Gesture found:" + currentGesture.name);
             previousGesture = currentGesture;
             currentGesture.onRecognized.Invoke();
         }
