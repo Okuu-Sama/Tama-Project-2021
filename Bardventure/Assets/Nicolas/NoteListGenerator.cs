@@ -10,24 +10,25 @@ using Melanchall.DryWetMidi.Composing;
 using Melanchall.DryWetMidi.Standards;
 using Melanchall.DryWetMidi.Tools;
 
+//remove monobehaviour and instantiate class in game loop ?
+//Swap to using UnityEngine.Random because 20% 40% faster ?
 
 public class NoteListGenerator : MonoBehaviour
 {
 
     public string nameOfSong;
     private MidiFile myMidiFile;
-    private NotesManager notesManager;
-    private NotesCollection notes;
     private IEnumerable<Note> listNote;
     private TempoMap tempomap;
-    private int notecounter = 0;
     private GameObject rhythmCoreObj;
     private RhythmCore rhythmCoreComp;
+    
+    private enum Gestures {Thumbs_up,Victory_sign,Closed,Open};
+    //private ArrayList values;   
 
     // Start is called before the first frame update
     void Start()
     {
-        
         /*
          * TODO:
          *      > Extract midi file name from Core
@@ -36,6 +37,12 @@ public class NoteListGenerator : MonoBehaviour
          *      > Manage points
          *      > Implement points multiplier
          */
+
+        // FINISH GESTURE IN NOTE USING RANDOM
+        Gestures gesture = new Gestures();
+        var values = System.Enum.GetValues(typeof(Gestures));
+        System.Random myrand = new System.Random();
+        
 
         rhythmCoreObj = GameObject.FindWithTag("RhythmCore");
         if (rhythmCoreObj != null) Debug.Log("Core not found");
@@ -46,22 +53,13 @@ public class NoteListGenerator : MonoBehaviour
         //myMidiFile = MidiFile.Read("Assets/Nicolas/Audio/"+nameOfSong+".mid");
         myMidiFile = MidiFile.Read("Assets/Nicolas/Audio/auclair.mid");
         tempomap = myMidiFile.GetTempoMap();
-        notesManager = myMidiFile.GetTrackChunks().First().ManageNotes();
-        notes = notesManager.Notes;
         listNote = myMidiFile.GetNotes();
-        Debug.Log("testlistnote");
-        Debug.Log(listNote.Count().ToString());
         foreach (Note note in listNote)
         {
-            Debug.Log(">> Note name:" + note.NoteName + note.Octave);
-            Debug.Log(">>> Note length(?):" + note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f);
-            Debug.Log(">>>> Note time(?):" + note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f);
-            Debug.Log("note counter:" + notecounter);
-            notecounter++;
-
-            rhythmCoreComp.notes.Add(new SimpleNote(0,100, note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f,1));
+            gesture = (Gestures)values.GetValue(myrand.Next(values.Length));
+            Debug.Log("GESTURE IS: " + gesture + " IN INT FORM: " + (int)gesture);
+            rhythmCoreComp.addToNoteList(new SimpleNote(0, 100, note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1, (int)gesture));
         }
-        Debug.Log(rhythmCoreComp.notes.ToString());
     }
 
     // Update is called once per frame

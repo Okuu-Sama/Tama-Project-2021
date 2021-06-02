@@ -12,6 +12,7 @@ public class RhythmCore : MonoBehaviour
     public AudioSource audioSource;
     public Text songInfo;
     public GameObject testSphere;
+    private string nameOfSong;
     readonly float bpm = 170;
     float lastbeat;
     float crochet;
@@ -23,13 +24,24 @@ public class RhythmCore : MonoBehaviour
     string path;
     StreamWriter writer;
     int token = 0;
-    MidiFile test;
-    public List<INote> notes = new List<INote>();
+    private List<INote> notes = new List<INote>();
+    private PointsManager playerScore;
+
+    public string getNameOfSong()
+    {
+        return nameOfSong;
+    }
+
+    public void addToNoteList(INote note)
+    {
+        notes.Add(note);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        notes.Add(new SimpleNote(0,100,1.0f,1.0f));
+        playerScore = new PointsManager();
+        notes.Add(new SimpleNote(0,100,1.0f,1.0f,0));
         lastbeat = 0;
         crochet = 60f / bpm;
         dsptimesong = (float)AudioSettings.dspTime;
@@ -44,16 +56,17 @@ public class RhythmCore : MonoBehaviour
     {
 
         writer.Write("-");
-       songposition = (float)(AudioSettings.dspTime - dsptimesong)*audioSource.pitch;
-        songInfo.text = "Pitch of the song: " + audioSource.pitch.ToString() + 
-                        " Audio time (source):" + audioSource.time.ToString() + 
+        songposition = (float)(AudioSettings.dspTime - dsptimesong) * audioSource.pitch;
+        songInfo.text = "Pitch of the song: " + audioSource.pitch.ToString() +
+                        " Audio time (source):" + audioSource.time.ToString() +
                         "Audiotime(setting): " + AudioSettings.dspTime.ToString() +
-                        " songpostion: " + songposition;
-        if(songposition > lastbeat+crochet)
+                        " songpostion: " + songposition +
+                        "Score test: " + playerScore.GetScore().ToString();
+        if (songposition > lastbeat + crochet)
         {
-            if(counter ==0)
+            if (counter == 0)
             {
-                
+
                 testSphere.GetComponent<Renderer>().material.color = red;
                 counter++;
             }
@@ -67,7 +80,7 @@ public class RhythmCore : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            if(token==0)
+            if (token == 0)
             {
                 writer.WriteLine("Beat: " + songposition.ToString());
                 token++;
@@ -76,6 +89,12 @@ public class RhythmCore : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             token = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            playerScore.ScoreUp(100);
+            playerScore.MultiplierUp();
         }
     }
 }

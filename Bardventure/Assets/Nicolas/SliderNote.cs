@@ -7,6 +7,7 @@ public class SliderNote : INote
     private float duration;
     private Vector3[] path;
 
+    private string gesture;
     private int points;
     private float time, velocity;
     private Material image;
@@ -16,6 +17,7 @@ public class SliderNote : INote
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
     public Vector3[] Path { get => path; }
+    public string Gesture { get => gesture; set => gesture = value; }
 
     public void SetPath(string _form)
     {

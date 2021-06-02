@@ -4,6 +4,11 @@ using UnityEngine;
 
 public interface INote
 {
+    string Gesture
+    {
+        get;
+        set;
+    }
     int Points
     {
         get;

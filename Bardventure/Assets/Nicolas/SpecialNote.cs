@@ -7,6 +7,7 @@ public class SpecialNote : INote
     private float duration;
     private bool type;
 
+    private string gesture;
     private int points;
     private float time, velocity;
     private Material image;
@@ -16,6 +17,7 @@ public class SpecialNote : INote
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
     public bool Type { get => type; set => type = value; }
+    public string Gesture { get => gesture; set => gesture = value; }
 
     /*
     // Start is called before the first frame update
