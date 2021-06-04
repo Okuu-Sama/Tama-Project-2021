@@ -143,6 +143,8 @@ MonoBehaviour:
   myPrefab: {fileID: 0}
   SliderPrefab: {fileID: 0}
   destroyObjectIn: 0
+  sucessEffectPrefab: {fileID: 3302442364004722511, guid: 10434d6bf3af98b46a88ab696f543ee3, type: 3}
+  failedEffectPrefab: {fileID: 0}
 --- !u!54 &7724665440798068299
 Rigidbody:
   m_ObjectHideFlags: 0

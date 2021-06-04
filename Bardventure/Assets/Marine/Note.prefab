@@ -109,11 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f0399fe3d5b5b4e9503c9667e6558d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   myPrefab: {fileID: 0}
   SliderPrefab: {fileID: 0}
-  spawningLocation: 6
-  barLocation: 0
+  destroyObjectIn: 0
+  sucessEffectPrefab: {fileID: 1855340746554395461, guid: 49011e57640af4346b984abcfb1cf581, type: 3}
+  failedEffectPrefab: {fileID: 0}
 --- !u!54 &2149010974572240552
 Rigidbody:
   m_ObjectHideFlags: 0

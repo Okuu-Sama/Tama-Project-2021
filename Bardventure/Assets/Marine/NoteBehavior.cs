@@ -10,11 +10,17 @@ public class NoteBehavior : Display
     private Vector3 finalPosition;
     private float startSpawning;
  
-    private Quaternion target; 
+    private Quaternion target;
+
+    public GameObject sucessEffectPrefab, failedEffectPrefab; 
 
     // Start is called before the first frame update
     void Start()
     {
+        //Assets/Sherbbs Particle Collection/Particles/Normal/BasicSpark 2.prefab
+        //sucessEffectPrefab = GameObject.Find("Sherbbs Particle Collection/Particles/Normal/BasicSpark 2");
+
+
         Time.timeScale = 1;
         startSpawning = -4 * Mathf.Log(spawningLocation); //to get starting z 
 
@@ -83,7 +89,22 @@ public class NoteBehavior : Display
                 Destroy(this.gameObject, destroyObjectIn+5/velocity); 
             else if(this.gameObject.tag == "SliderNote")
                 Destroy(this.gameObject, destroyObjectIn+ 5/velocity);
+        Suceed(); 
+    }
+
+    private void Suceed()
+    {
+        GameObject visualEffect = Instantiate(sucessEffectPrefab, new Vector3(transform.position.x+0.2f, transform.position.y + 0.2f, transform.position.z + 0.2f), Quaternion.identity) as GameObject;
+        visualEffect.transform.parent = transform;
+        visualEffect.transform.SetAsFirstSibling(); 
         
+        transform.GetChild(0).localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        transform.GetChild(0).GetChild(0).localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        transform.GetChild(0).GetChild(1).localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        transform.GetChild(0).GetChild(2).localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+       
+        Destroy(visualEffect, 0.1f); 
     }
 
 
