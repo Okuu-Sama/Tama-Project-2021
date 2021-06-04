@@ -9,8 +9,8 @@ public class Display : MonoBehaviour
     private int counter = 0;
 
     GameObject note;
-    public GameObject myPrefab; 
-    public GameObject SliderPrefab;
+    public GameObject SimpleNotePrefab; 
+    public GameObject SpecialNotePrefab;
 
     public enum NoteType
     {
@@ -50,10 +50,10 @@ public class Display : MonoBehaviour
             //Debug.Log("Display "+typeNote[counter]+" " + velocity);
             //Debug.Log("Note created");
             if (typeNote[counter] == NoteType.simple)
-                note = Instantiate(myPrefab, new Vector3(counter%2, spawningLocation, -4 * Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
+                note = Instantiate(SimpleNotePrefab, new Vector3(counter%2, spawningLocation, -4 * Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
             else
             {
-                note = Instantiate(SliderPrefab, new Vector3(counter % 2, spawningLocation, -4*Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
+                note = Instantiate(SpecialNotePrefab, new Vector3(counter % 2, spawningLocation, -4*Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
                 note.transform.localScale = new Vector3(0.5f, velocity*duration[counter]-0.2f, 0.5f);
                 note.GetComponent<NoteBehavior>().destroyObjectIn = duration[counter]; 
 

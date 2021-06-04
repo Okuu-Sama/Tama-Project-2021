@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8763575174870789114}
   - component: {fileID: 7243087007831410260}
   m_Layer: 0
-  m_Name: SliderNoteSprite
+  m_Name: SpecialNoteSprite
   m_TagString: SliderNote
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,8 +107,8 @@ GameObject:
   - component: {fileID: 8478298870105327719}
   - component: {fileID: 7724665440798068299}
   m_Layer: 0
-  m_Name: SliderNote
-  m_TagString: SliderNote
+  m_Name: SpecialNote
+  m_TagString: SpecialNote
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

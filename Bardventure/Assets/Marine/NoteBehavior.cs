@@ -17,16 +17,14 @@ public class NoteBehavior : Display
     // Start is called before the first frame update
     void Start()
     {
-        //Assets/Sherbbs Particle Collection/Particles/Normal/BasicSpark 2.prefab
-        //sucessEffectPrefab = GameObject.Find("Sherbbs Particle Collection/Particles/Normal/BasicSpark 2");
-
+ 
 
         Time.timeScale = 1;
         startSpawning = -4 * Mathf.Log(spawningLocation); //to get starting z 
 
         
 
-        if (this.gameObject.tag == "SliderNote")
+        if (this.gameObject.tag == "SpecialNote")
         {
             float m1, m2; //Slopes 
             float rotationOf = 0.0f;
@@ -70,9 +68,9 @@ public class NoteBehavior : Display
 
         #endregion
 
-        #region rotate if GameObject is type SliderNote
+        #region rotate if GameObject is type SpecialNote
 
-        if (this.gameObject.tag == "SliderNote")
+        if (this.gameObject.tag == "SpecialNote")
             transform.rotation = Quaternion.Slerp(transform.rotation, target, step);
        
         //Debug.Log("Position Sphere : "+transform.position +" with step: "+step); 
@@ -87,7 +85,7 @@ public class NoteBehavior : Display
         if (other.gameObject.tag == "Bar")
             if(this.gameObject.tag == "SimpleNote")
                 Destroy(this.gameObject, destroyObjectIn+5/velocity); 
-            else if(this.gameObject.tag == "SliderNote")
+            else if(this.gameObject.tag == "SpecialNote")
                 Destroy(this.gameObject, destroyObjectIn+ 5/velocity);
         Suceed(); 
     }

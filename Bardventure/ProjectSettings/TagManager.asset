@@ -8,6 +8,7 @@ TagManager:
   - Note
   - SimpleNote
   - SliderNote
+  - SpecialNote
   layers:
   - Default
   - TransparentFX

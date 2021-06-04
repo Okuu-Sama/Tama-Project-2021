@@ -369,8 +369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60c991010023fe41b499f757927dc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 0}
-  SliderPrefab: {fileID: 0}
+  SimpleNotePrefab: {fileID: 0}
+  SpecialNotePrefab: {fileID: 0}
 --- !u!1 &1587468962
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,8 +400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8054027cc886e924fbe45971efba54c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 4350244721410190285, guid: 6cf3e437b791f6446ad77e4522e2f1f3, type: 3}
-  SliderPrefab: {fileID: 5495466406230057460, guid: 463e1068683ee6145a2c5601c3ac35d6, type: 3}
+  SimpleNotePrefab: {fileID: 4350244721410190285, guid: 6cf3e437b791f6446ad77e4522e2f1f3, type: 3}
+  SpecialNotePrefab: {fileID: 5495466406230057460, guid: 463e1068683ee6145a2c5601c3ac35d6, type: 3}
 --- !u!4 &1587468964
 Transform:
   m_ObjectHideFlags: 0
