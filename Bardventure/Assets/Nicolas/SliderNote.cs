@@ -7,7 +7,6 @@ public class SliderNote : INote
     private float duration;
     private Vector3[] path;
 
-    private string gesture;
     private int points;
     private float time, velocity;
     private Material image;
@@ -17,24 +16,15 @@ public class SliderNote : INote
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
     public Vector3[] Path { get => path; }
-    public string Gesture { get => gesture; set => gesture = value; }
+    public int TrackSide { get => TrackSide; set => TrackSide = value   ; }
 
     public void SetPath(string _form)
     {
         throw new System.NotImplementedException();
     }
 
-    /*
-    // Start is called before the first frame update
-    void Start()
+    public override string ToString()
     {
-        
+        return "note type: "+ GetType() +"duration: " + duration + " points: " + points + " time: " + time;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    */
 }

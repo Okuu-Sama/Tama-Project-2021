@@ -11,9 +11,10 @@ public class RhythmCore : MonoBehaviour
 
     public AudioSource audioSource;
     public Text songInfo;
+    public Text noteInfo;
     public GameObject testSphere;
     private string nameOfSong;
-    readonly float bpm = 170;
+    readonly float bpm = 120;
     float lastbeat;
     float crochet;
     Color red = new Color(1f,0f,0f,0f);
@@ -24,8 +25,10 @@ public class RhythmCore : MonoBehaviour
     string path;
     StreamWriter writer;
     int token = 0;
+
     private List<INote> notes = new List<INote>();
     private PointsManager playerScore;
+    private int iterator = 0;
 
     public string getNameOfSong()
     {
@@ -40,8 +43,8 @@ public class RhythmCore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        nameOfSong = audioSource.clip.name;
         playerScore = new PointsManager();
-        notes.Add(new SimpleNote(0,100,1.0f,1.0f,0));
         lastbeat = 0;
         crochet = 60f / bpm;
         dsptimesong = (float)AudioSettings.dspTime;
@@ -49,12 +52,13 @@ public class RhythmCore : MonoBehaviour
         writer = new StreamWriter(path, true);
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
+
+        NoteListGenerator.GenerateList(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         writer.Write("-");
         songposition = (float)(AudioSettings.dspTime - dsptimesong) * audioSource.pitch;
         songInfo.text = "Pitch of the song: " + audioSource.pitch.ToString() +
@@ -76,6 +80,12 @@ public class RhythmCore : MonoBehaviour
                 counter--;
             }
             lastbeat += crochet;
+        }
+
+        if(songposition >= notes[iterator].Time )
+        {
+            noteInfo.text = notes[iterator].ToString();
+            iterator++;
         }
 
         if (Input.GetKeyDown(KeyCode.K))
