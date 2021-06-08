@@ -4,6 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Bar
+  - Note
+  - SimpleNote
+  - SliderNote
+  - SpecialNote
   - RhythmCore
   layers:
   - Default
