@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Devices;
 
@@ -82,10 +83,11 @@ public class RhythmCore : MonoBehaviour
             lastbeat += crochet;
         }
 
-        if(songposition >= notes[iterator].Time )
+        if(notes != null && notes[iterator].Time <=  songposition)
         {
             noteInfo.text = notes[iterator].ToString();
             iterator++;
+            if (iterator == notes.Count) notes = null;
         }
 
         if (Input.GetKeyDown(KeyCode.K))
