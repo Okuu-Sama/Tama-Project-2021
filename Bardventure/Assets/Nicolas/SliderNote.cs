@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SliderNote : MonoBehaviour, INote
+public class SliderNote : INote
 {
     private float duration;
     private Vector3[] path;
@@ -16,21 +16,15 @@ public class SliderNote : MonoBehaviour, INote
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
     public Vector3[] Path { get => path; }
+    public int TrackSide { get => TrackSide; set => TrackSide = value   ; }
 
     public void SetPath(string _form)
     {
         throw new System.NotImplementedException();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public override string ToString()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return "note type: "+ GetType() +"duration: " + duration + " points: " + points + " time: " + time;
     }
 }
