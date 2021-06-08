@@ -5,17 +5,19 @@ using UnityEngine;
 public class Display : MonoBehaviour
 {
 
-    private float timer = 0.0f;
+    public float timer = 0.0f;
     private int counter = 0;
 
     GameObject note;
     public GameObject SimpleNotePrefab; 
     public GameObject SpecialNotePrefab;
+    public GameObject SliderNotePrefab;
 
     public enum NoteType
     {
-        simple,   
-        special
+        SimpleNote,   
+        SpecialNote, 
+        SliderNote
     }
 
     #region info note location/displacement
@@ -28,7 +30,7 @@ public class Display : MonoBehaviour
     #region test sample
     private readonly float[] time = new float[] { 0, 0.5f, 1, 1.5f, 2, 3, 4, 4.5f, 5, 5.5f};
     protected float[] duration = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 1, 1, 0.5f, 0.5f, 0.5f, 0.5f };
-    private readonly NoteType[] typeNote = new NoteType[] { NoteType.simple, NoteType.simple , NoteType.simple , NoteType.simple , NoteType.special , NoteType.special , NoteType.simple , NoteType.simple , NoteType.simple , NoteType.simple }; 
+    private readonly NoteType[] typeNote = new NoteType[] { NoteType.SimpleNote, NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SliderNote , NoteType.SliderNote , NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SimpleNote }; 
     #endregion
 
     // Start is called before the first frame update
@@ -39,6 +41,7 @@ public class Display : MonoBehaviour
     }
 
     // Update is called once per frame
+    /*
     void Update()
     {
         timer += Time.deltaTime;
@@ -47,26 +50,35 @@ public class Display : MonoBehaviour
         //Debug.Log("Display.timer " + timer); 
         while(counter < time.Length && timer >= time[counter])
         {
-            //Debug.Log("Display "+typeNote[counter]+" " + velocity);
-            //Debug.Log("Note created");
-            if (typeNote[counter] == NoteType.simple)
-                note = Instantiate(SimpleNotePrefab, new Vector3(counter%2, spawningLocation, -4 * Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
-            else
-            {
-                note = Instantiate(SpecialNotePrefab, new Vector3(counter % 2, spawningLocation, -4*Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
-                note.transform.localScale = new Vector3(0.5f, velocity*duration[counter]-0.2f, 0.5f);
-                note.GetComponent<NoteBehavior>().destroyObjectIn = duration[counter]; 
-
-
-            }
+           
+            DisplayNote(typeNote[counter].ToString(),duration[counter]); 
 
             counter += 1; 
 
         }
 
     }
+    */
+
+    public void DisplayNote(string noteType, float duration)
+    {
+        
+        if (noteType == NoteType.SimpleNote.ToString())
+            note = Instantiate(SimpleNotePrefab, new Vector3(counter % 2, spawningLocation, -4 * Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
+        else if (noteType == NoteType.SpecialNote.ToString())
+        {
+            note = Instantiate(SpecialNotePrefab, new Vector3(counter % 2, spawningLocation, -4 * Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
+            note.transform.localScale = new Vector3(0.5f, velocity * duration - 0.2f, 0.5f);
+            note.GetComponent<NoteBehavior>().destroyObjectIn = duration;
 
 
+        }
+        else
+        {
+            note = Instantiate(SliderNotePrefab, new Vector3(counter % 2, spawningLocation, -4 * Mathf.Log(spawningLocation)), Quaternion.identity) as GameObject;
+            note.GetComponent<NoteBehavior>().destroyObjectIn = duration;
+        }
+    }
 
 }
 

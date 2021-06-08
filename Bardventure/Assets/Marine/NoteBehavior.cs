@@ -9,6 +9,8 @@ public class NoteBehavior : Display
 
     private Vector3 finalPosition;
     private float startSpawning;
+    private bool showShape;
+    private float chronometer = 0; 
  
     private Quaternion target;
 
@@ -17,12 +19,10 @@ public class NoteBehavior : Display
     // Start is called before the first frame update
     void Start()
     {
- 
+        showShape = false; //For sliderNote 
 
         Time.timeScale = 1;
         startSpawning = -4 * Mathf.Log(spawningLocation); //to get starting z 
-
-        
 
         if (this.gameObject.tag == "SpecialNote")
         {
@@ -47,47 +47,68 @@ public class NoteBehavior : Display
     void Update()
     {
         //Debug.Log("Note behavior " + velocity);
-        #region Move the GameObject
-        float step = velocity * Time.deltaTime; // calculate distance to move
+        if(showShape == false)
+        { 
+            #region Move the GameObject
+            float step = velocity * Time.deltaTime; // calculate distance to move
  
-        //Debug.Log("Note behavior step " + step);
-        startSpawning += step;
+            //Debug.Log("Note behavior step " + step);
+            startSpawning += step;
 
-        #region vertical trajectory NOT USED
-        //finalPosition.x = this.transform.position.x;
-        //finalPosition.y = -10.0f; 
-        //finalPosition.z = this.transform.position.x;
-        #endregion
+            #region vertical trajectory NOT USED
+            //finalPosition.x = this.transform.position.x;
+            //finalPosition.y = -10.0f; 
+            //finalPosition.z = this.transform.position.x;
+            #endregion
 
-        #region exponential trajectory
-        finalPosition.x = this.transform.position.x; // 2D trajectory, x doesn't matter
-        finalPosition.z = startSpawning;
-        finalPosition.y = Mathf.Exp(-finalPosition.z / 4);
-        transform.position = finalPosition;
-        #endregion
+            #region exponential trajectory
+            finalPosition.x = this.transform.position.x; // 2D trajectory, x doesn't matter
+            finalPosition.z = startSpawning;
+            finalPosition.y = Mathf.Exp(-finalPosition.z / 4);
+            transform.position = finalPosition;
+            #endregion
 
-        #endregion
+            #endregion
 
-        #region rotate if GameObject is type SpecialNote
+            #region rotate if GameObject is type SpecialNote
 
-        if (this.gameObject.tag == "SpecialNote")
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, step);
-       
-        //Debug.Log("Position Sphere : "+transform.position +" with step: "+step); 
-        #endregion
+            if (this.gameObject.tag == "SpecialNote")
+                transform.rotation = Quaternion.Slerp(transform.rotation, target, step);
+
+
+            #endregion
+        }
+        else
+        {
+            chronometer += Time.deltaTime;
+
+            if (chronometer >= destroyObjectIn)
+                showShape = false; 
+        }
+            
+
+
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision "+gameObject.name+ " "+ gameObject.tag + " "+destroyObjectIn);
-        
+
         if (other.gameObject.tag == "Bar")
-            if(this.gameObject.tag == "SimpleNote")
-                Destroy(this.gameObject, destroyObjectIn+5/velocity); 
-            else if(this.gameObject.tag == "SpecialNote")
-                Destroy(this.gameObject, destroyObjectIn+ 5/velocity);
-        Suceed(); 
+            if (this.gameObject.tag == "SimpleNote")
+                Destroy(this.gameObject, destroyObjectIn + 5 / velocity);
+            else if (this.gameObject.tag == "SpecialNote")
+                Destroy(this.gameObject, destroyObjectIn + 5 / velocity);
+            else if (this.gameObject.tag == "SliderNote")
+            {
+                showShape = true;
+                Destroy(this.gameObject, destroyObjectIn*2 + 5 / velocity);
+            }
+                
+
+
+
     }
 
     private void Suceed()
@@ -104,6 +125,7 @@ public class NoteBehavior : Display
        
         Destroy(visualEffect, 0.1f); 
     }
+
 
 
 
