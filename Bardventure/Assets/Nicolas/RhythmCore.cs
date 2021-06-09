@@ -31,6 +31,8 @@ public class RhythmCore : MonoBehaviour
     private PointsManager playerScore;
     private int iterator = 0;
 
+    private Display display;
+
     public string getNameOfSong()
     {
         return nameOfSong;
@@ -54,6 +56,7 @@ public class RhythmCore : MonoBehaviour
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
 
+        display = new Display();
         NoteListGenerator.GenerateList(this);
     }
 
