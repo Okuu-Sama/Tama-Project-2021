@@ -16,7 +16,7 @@ public class GestureDetected : MonoBehaviour
 
         if (note is SimpleNote) {
             m_MyText.text = "Simple Note detected!";
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space)) //myGestureTestComp.SimpleGestureDetection(((SimpleNote)note).TrackSide)
             {
                 m_MyText.text = "Right gesture for simple note";
                 return true;
@@ -24,7 +24,7 @@ public class GestureDetected : MonoBehaviour
         } else if (note is SliderNote)
         {
             m_MyText.text = "Slider Note detected!";
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A)) 
             {
                 m_MyText.text = "Right gesture for slider note";
                 return true;
@@ -61,6 +61,6 @@ public class GestureDetected : MonoBehaviour
     void Update()
     {
         
-        rightGesture(test);
+        //rightGesture(test);
     }
 }
