@@ -16,13 +16,11 @@ public class SpecialNote : INote
     public float Velocity { get => velocity; set => velocity = value; }
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
-    public int Type { get => type; set => type = value; }
     public int TrackSide { get => trackside; set => trackside = value; }
 
-    public SpecialNote(float _duration, int _type, int _points, float _time, float _velocity, int _track)
+    public SpecialNote(float _duration, int _points, float _time, float _velocity, int _track)
     {
         duration = _duration;
-        type = _type;
         points = _points;
         time = _time;
         velocity = _velocity;
