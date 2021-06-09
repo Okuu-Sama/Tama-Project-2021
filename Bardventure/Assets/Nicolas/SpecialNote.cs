@@ -29,6 +29,6 @@ public class SpecialNote : INote
 
     public override string ToString()
     {
-        return "note type: " + GetType() + " points is: " + points + " time is: " + time + " track: " + trackside + " gesture: " + gesture;
+        return "note type: " + GetType() + " points is: " + points + " time is: " + time + " track: " + trackside;
     }
 }
