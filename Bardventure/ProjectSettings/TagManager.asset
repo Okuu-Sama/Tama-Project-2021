@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bar
+  - Note
+  - SimpleNote
+  - SliderNote
+  - SpecialNote
+  - RhythmCore
   layers:
   - Default
   - TransparentFX
