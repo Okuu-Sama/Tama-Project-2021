@@ -31,7 +31,7 @@ public class PlayAudio : Display
         if (timing >= musicStart && !audiosource.isPlaying)
                 audiosource.Play();
 
-        //Debug.Log("Playing? "+audiosource.isPlaying + " " + timing); 
+        
 
         #endregion
 

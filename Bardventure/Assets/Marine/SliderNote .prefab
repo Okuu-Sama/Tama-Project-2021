@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8183322039719381452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 1.59}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -109,12 +109,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f0399fe3d5b5b4e9503c9667e6558d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
   SimpleNotePrefab: {fileID: 0}
   SpecialNotePrefab: {fileID: 0}
   SliderNotePrefab: {fileID: 0}
   destroyObjectIn: 0
   sucessEffectPrefab: {fileID: 3302442364004722511, guid: 10434d6bf3af98b46a88ab696f543ee3, type: 3}
   failedEffectPrefab: {fileID: 0}
+  shapePrefab: {fileID: 6179745861760623025, guid: d07f6cb9f4bdc9a448a81d98a7b30da1, type: 3}
 --- !u!54 &8183322039719381451
 Rigidbody:
   m_ObjectHideFlags: 0

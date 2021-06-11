@@ -14,7 +14,9 @@ public class NoteBehavior : Display
  
     private Quaternion target;
 
-    public GameObject sucessEffectPrefab, failedEffectPrefab; 
+    public GameObject sucessEffectPrefab, failedEffectPrefab, shapePrefab;
+    GameObject shape;
+
 
     // Start is called before the first frame update
     void Start()
@@ -64,11 +66,13 @@ public class NoteBehavior : Display
             #region exponential trajectory
             finalPosition.x = this.transform.position.x; // 2D trajectory, x doesn't matter
             finalPosition.z = startSpawning;
-            finalPosition.y = Mathf.Exp(-finalPosition.z / 4);
+            finalPosition.y = Mathf.Exp(-finalPosition.z / 4);//Mathf.Exp(-finalPosition.z / 4);
             transform.position = finalPosition;
             #endregion
 
             #endregion
+
+             
 
             #region rotate if GameObject is type SpecialNote
 
@@ -80,12 +84,29 @@ public class NoteBehavior : Display
         }
         else
         {
+            #region SliderNote reveals its pattern
+            
+            if (chronometer == 0)
+            {
+                Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y/2, transform.position.z); 
+                shape = Instantiate(shapePrefab, positionOfPrefab, Quaternion.identity) as GameObject;
+                transform.position = shape.transform.GetChild(0).position; 
+                transform.localScale = shape.transform.GetChild(1).localScale;
+            }
+                
+
             chronometer += Time.deltaTime;
 
-            if (chronometer >= destroyObjectIn)
-                showShape = false; 
+            if (chronometer >= destroyObjectIn-0.1f)
+            {
+                showShape = false;
+                //transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                Destroy(shape); 
+            }
+
+            #endregion
         }
-            
+
 
 
 
@@ -96,14 +117,16 @@ public class NoteBehavior : Display
         //Debug.Log("Collision "+gameObject.name+ " "+ gameObject.tag + " "+destroyObjectIn);
 
         if (other.gameObject.tag == "Bar")
-            if (this.gameObject.tag == "SimpleNote")
-                Destroy(this.gameObject, destroyObjectIn + 5 / velocity);
-            else if (this.gameObject.tag == "SpecialNote")
-                Destroy(this.gameObject, destroyObjectIn + 5 / velocity);
-            else if (this.gameObject.tag == "SliderNote")
+            if (gameObject.tag == "SimpleNote")
+                Destroy(gameObject, destroyObjectIn + 5 / velocity);
+            else if (gameObject.tag == "SpecialNote")
+                Destroy(gameObject, destroyObjectIn + 5 / velocity);
+            else if (gameObject.tag == "SliderNote")
             {
+                //Debug.Log("Position " + transform.position.z + " " + transform.position.y);
                 showShape = true;
-                Destroy(this.gameObject, destroyObjectIn*2 + 5 / velocity);
+                Destroy(gameObject, destroyObjectIn*2 + 5 / velocity);
+                
             }
                 
 
@@ -111,6 +134,7 @@ public class NoteBehavior : Display
 
     }
 
+    // Function to display effect 
     private void Suceed()
     {
         GameObject visualEffect = Instantiate(sucessEffectPrefab, new Vector3(transform.position.x+0.2f, transform.position.y + 0.2f, transform.position.z + 0.2f), Quaternion.identity) as GameObject;
