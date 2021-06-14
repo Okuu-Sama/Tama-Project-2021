@@ -22,7 +22,6 @@ public class Display
 
     private float RightTrack, LeftTrack; 
 
-    //protected float velocity = 2.0f; // bpm --> nombre de pulsation par mesure 
     //Needed to know the speed at which the game objects moves and their (y-axis) spawning location
 
     private float velocity, spawningLocation; 
