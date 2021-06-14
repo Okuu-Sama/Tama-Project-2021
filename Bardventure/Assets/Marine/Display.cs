@@ -65,7 +65,8 @@ public class Display
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
 
-            note.transform.localScale = new Vector3(note.transform.localScale.x, Velocity * duration - 0.2f, note.transform.localScale.z);
+            Debug.Log("Size slider: " + velocity * duration); 
+            note.transform.localScale = new Vector3(note.transform.localScale.x, (velocity * duration)/(SpecialNotePrefab.transform.localScale.y) , note.transform.localScale.z);
             note.GetComponent<NoteBehavior>().destroyObjectIn = duration;
 
 

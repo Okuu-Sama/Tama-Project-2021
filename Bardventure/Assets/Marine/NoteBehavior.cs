@@ -104,7 +104,6 @@ public class NoteBehavior : MonoBehaviour
             if (chronometer >= destroyObjectIn-0.1f)
             {
                 showShape = false;
-                //transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 Destroy(shape); 
             }
 

@@ -10,7 +10,7 @@ public class PlayAudio : MonoBehaviour
     private float timing = 0;
 
     //to remove 
-    protected float velocity = 2.0f;
+    protected float velocity = 1.0f;
     protected float spawningLocation = 10.0f;
     protected float barLocation; 
 
@@ -41,13 +41,7 @@ public class PlayAudio : MonoBehaviour
         (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)), 
         velocity, spawningLocation, GameObject.Find("OVRCameraRig").transform.position);
 
-        /*
-        display.Velocity = velocity;
-        display.SpawningLocation = spawningLocation; 
-        display.SimpleNotePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SimpleNote.prefab", typeof(GameObject)); ;
-        display.SliderNotePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)); ;
-        display.SpecialNotePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SpecialNote.prefab", typeof(GameObject)); ;
-        */
+
         #endregion
 
 
