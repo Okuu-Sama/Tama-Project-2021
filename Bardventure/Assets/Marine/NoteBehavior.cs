@@ -18,7 +18,8 @@ public class NoteBehavior : MonoBehaviour
     GameObject shape;
 
     public float Velocity;
-    public float SpawningLocation; 
+    public float SpawningLocation;
+
 
 
     // Start is called before the first frame update
@@ -94,7 +95,7 @@ public class NoteBehavior : MonoBehaviour
                 Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y/2, transform.position.z); 
                 shape = Instantiate(shapePrefab, positionOfPrefab, Quaternion.identity) as GameObject;
                 transform.position = shape.transform.GetChild(0).position; 
-                transform.localScale = shape.transform.GetChild(1).localScale;
+                //transform.localScale = shape.transform.GetChild(1).localScale;
             }
                 
 

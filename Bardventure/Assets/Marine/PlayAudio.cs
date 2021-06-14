@@ -15,36 +15,39 @@ public class PlayAudio : MonoBehaviour
     protected float barLocation; 
 
     private int counter = 0;
-    private Display display = new Display();
+    private Display display; 
 
     #region test sample
     private readonly float[] time = new float[] { 0, 0.5f, 1, 1.5f, 2, 3, 4, 4.5f, 5, 5.5f };
     protected float[] duration = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 1, 1, 0.5f, 0.5f, 0.5f, 0.5f };
-    private readonly string[] typeNote = new string[] { "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote", "SpecialNote", "SliderNote", "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote" };
+    private readonly string[] typeNote = new string[] { "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote", "SliderNote", "SpecialNote", "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote" };
 
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        #region get information of game objects present in the scene 
-        barLocation = GameObject.Find("Bar").transform.position.y; 
-        #endregion
 
         #region Initialize variables to play music
+        barLocation = GameObject.Find("Bar").transform.position.z;
         audiosource = gameObject.AddComponent<AudioSource>();
         audiosource.clip = (AudioClip)Resources.Load("auclair");
-        musicStart = (spawningLocation - barLocation) / velocity;
+        musicStart = Mathf.Abs(-4 * Mathf.Log(spawningLocation) - barLocation) / velocity;
         #endregion
 
         #region launch Display
+        display = new Display((GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SimpleNote.prefab", typeof(GameObject)),
+        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SpecialNote.prefab", typeof(GameObject)),
+        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)), 
+        velocity, spawningLocation, GameObject.Find("OVRCameraRig").transform.position);
 
+        /*
         display.Velocity = velocity;
         display.SpawningLocation = spawningLocation; 
         display.SimpleNotePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SimpleNote.prefab", typeof(GameObject)); ;
         display.SliderNotePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)); ;
         display.SpecialNotePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SpecialNote.prefab", typeof(GameObject)); ;
-
+        */
         #endregion
 
 
@@ -70,9 +73,9 @@ public class PlayAudio : MonoBehaviour
             Debug.Log("Display " + typeNote[counter]);
 
             if (typeNote[counter].ToString() == "SimpleNote")
-                display.DisplayNote(typeNote[counter].ToString(), counter);
+                display.DisplayNote(typeNote[counter].ToString(), counter%2);
             else
-                display.DisplayNote(typeNote[counter].ToString(), duration[counter], counter) ;
+                display.DisplayNote(typeNote[counter].ToString(), duration[counter], counter%2) ;
 
             counter += 1;
 

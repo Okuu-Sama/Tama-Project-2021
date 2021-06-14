@@ -20,61 +20,48 @@ public class Display
         SliderNote
     }
 
-    #region info note location/displacement
-    //protected float velocity = 2.0f; // bpm --> nombre de pulsation par mesure 
+    private float RightTrack, LeftTrack; 
 
+    //protected float velocity = 2.0f; // bpm --> nombre de pulsation par mesure 
     //Needed to know the speed at which the game objects moves and their (y-axis) spawning location
 
     private float velocity, spawningLocation; 
 
     public float Velocity { get => velocity; set => velocity = value; }
     public float SpawningLocation { get => spawningLocation; set => spawningLocation = value; }
-    #endregion
+    
 
-    /*
-    #region test sample
-    private readonly float[] time = new float[] { 0, 0.5f, 1, 1.5f, 2, 3, 4, 4.5f, 5, 5.5f};
-    protected float[] duration = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 1, 1, 0.5f, 0.5f, 0.5f, 0.5f };
-    private readonly NoteType[] typeNote = new NoteType[] { NoteType.SimpleNote, NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SpecialNote , NoteType.SliderNote , NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SimpleNote , NoteType.SimpleNote }; 
-    #endregion
-    */
-    /*
-void Start()
-{
-    Time.timeScale = 1f; //reference music was 100 bpm --> 600 beats per sec 
 
-}
-
-// Update is called once per frame
-
-void Update()
-{
-    timer += Time.deltaTime;
-
-    //Debug.Log("Display.timer " + timer); 
-    while(counter < time.Length && timer >= time[counter])
+    public Display(GameObject _SimpleNotePrefab, GameObject _SpecialNotePrefab, GameObject _SliderNotePrefab, float _velocity, float _spawningLocation, Vector3 position)
     {
+        SimpleNotePrefab = _SimpleNotePrefab;
+        SpecialNotePrefab = _SpecialNotePrefab;
+        SliderNotePrefab = _SliderNotePrefab;
+        velocity = _velocity;
+        spawningLocation = _spawningLocation;
 
-        if (typeNote[counter].ToString() == NoteType.SimpleNote.ToString())
-            DisplayNote(typeNote[counter].ToString()); 
-        else
-            DisplayNote(typeNote[counter].ToString(), duration[counter]);
-
-        counter += 1; 
+        RightTrack = position.x + 0.4f;
+        LeftTrack = position.x - 0.4f; 
 
     }
 
-}
-*/
 
+    private float Track(int side)
+    {
+        if (side == 0)//right 
+            return RightTrack;
+        else if (side == 1)//left 
+            return LeftTrack;
 
-    public void DisplayNote(string noteType, float duration, int counter)
+        return 0;
+    }
+    public void DisplayNote(string noteType, float duration, int track)
     {
         
         if (noteType == NoteType.SpecialNote.ToString())
         {
 
-            note = GameObject.Instantiate(SpecialNotePrefab, new Vector3(counter % 2, SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
+            note = GameObject.Instantiate(SpecialNotePrefab, new Vector3(Track(track), SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
             
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
@@ -87,25 +74,29 @@ void Update()
         }
         else
         {
-            note = GameObject.Instantiate(SliderNotePrefab, new Vector3(counter % 2, SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
+            note = GameObject.Instantiate(SliderNotePrefab, new Vector3(Track(track), SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
             note.GetComponent<NoteBehavior>().destroyObjectIn = duration;
+
         }
     }
 
 
 
-    public void DisplayNote(string noteType, int counter)
+    public void DisplayNote(string noteType, int track)
     {
 
         if (noteType == NoteType.SimpleNote.ToString())
         {
-            note = GameObject.Instantiate(SimpleNotePrefab, new Vector3(counter % 2, SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
+            note = GameObject.Instantiate(SimpleNotePrefab, new Vector3(Track(track), SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
         }
     }
+
+  
+
 
 }
 
