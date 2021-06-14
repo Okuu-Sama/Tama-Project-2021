@@ -8,12 +8,12 @@ public class Display
 
     #region prefabs/game object
     GameObject note;
-    public GameObject SimpleNotePrefab; 
-    public GameObject SpecialNotePrefab;
-    public GameObject SliderNotePrefab;
+    private GameObject SimpleNotePrefab; 
+    private GameObject SpecialNotePrefab;
+    private GameObject SliderNotePrefab;
     #endregion
 
-    public enum NoteType
+    private enum NoteType
     {
         SimpleNote,   
         SpecialNote, 
@@ -75,6 +75,7 @@ public class Display
         else
         {
             note = GameObject.Instantiate(SliderNotePrefab, new Vector3(Track(track), SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
+            
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
             note.GetComponent<NoteBehavior>().destroyObjectIn = duration;

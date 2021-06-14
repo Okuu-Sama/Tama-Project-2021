@@ -7,19 +7,25 @@ public class NoteBehavior : MonoBehaviour
     //Time in second to indicate after how much time should the object be destroyed when the Destroy function is called
     public float destroyObjectIn;
 
-    private Vector3 finalPosition;
-    
+    #region variables for displacmeent/rotation 
+    private Vector3 finalPosition;  
     private float startSpawning;
-
-    private bool showShape;
-    private float chronometer = 0; 
     private Quaternion target;
-    public GameObject sucessEffectPrefab, failedEffectPrefab, shapePrefab;
-    GameObject shape;
-
     public float Velocity;
     public float SpawningLocation;
-    private Vector3 previousScalingOfPrefab; 
+    #endregion
+
+    #region SliderNote prefab needed variable
+    private bool showShape;
+    private float chronometer = 0;
+    private Vector3 previousScalingOfPrefab;
+    #endregion
+
+    #region gameObject/prefab
+    public GameObject sucessEffectPrefab, failedEffectPrefab, shapePrefab;
+    GameObject shape;
+    #endregion
+
 
 
 
@@ -29,6 +35,7 @@ public class NoteBehavior : MonoBehaviour
         showShape = false; //For sliderNote 
 
         Time.timeScale = 1;
+
         startSpawning = -4 * Mathf.Log(SpawningLocation); //to get starting z 
 
         if (this.gameObject.tag == "SpecialNote")
@@ -90,18 +97,20 @@ public class NoteBehavior : MonoBehaviour
         else
         {
             #region SliderNote reveals its pattern
-            
+            chronometer += Time.deltaTime;
+
             if (chronometer == 0)
             {
                 Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y/2, transform.position.z);
                 previousScalingOfPrefab = transform.localScale;  
+                
                 shape = Instantiate(shapePrefab, positionOfPrefab, Quaternion.identity) as GameObject;
+                
                 transform.position = shape.transform.GetChild(0).position;
                 transform.localScale = new Vector3(shapePrefab.transform.localScale.x * transform.localScale.x, shapePrefab.transform.localScale.y * transform.localScale.y, shapePrefab.transform.localScale.z * transform.localScale.z);
             }
                 
 
-            chronometer += Time.deltaTime;
 
             if (chronometer >= destroyObjectIn-0.1f)
             {
