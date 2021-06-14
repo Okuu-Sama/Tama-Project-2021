@@ -298,15 +298,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314736921}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d60c991010023fe41b499f757927dc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  SimpleNotePrefab: {fileID: 0}
-  SpecialNotePrefab: {fileID: 0}
-  SliderNotePrefab: {fileID: 0}
 --- !u!1 &1587468962
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +312,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1587468964}
-  - component: {fileID: 1587468963}
   m_Layer: 0
   m_Name: Display
   m_TagString: Untagged
@@ -324,22 +319,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1587468963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587468962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8054027cc886e924fbe45971efba54c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  SimpleNotePrefab: {fileID: 4350244721410190285, guid: 6cf3e437b791f6446ad77e4522e2f1f3, type: 3}
-  SpecialNotePrefab: {fileID: 5495466406230057460, guid: 463e1068683ee6145a2c5601c3ac35d6, type: 3}
-  SliderNotePrefab: {fileID: 8183322039719381452, guid: e2414c8c6a32f984084dce6175a9cfff, type: 3}
 --- !u!4 &1587468964
 Transform:
   m_ObjectHideFlags: 0

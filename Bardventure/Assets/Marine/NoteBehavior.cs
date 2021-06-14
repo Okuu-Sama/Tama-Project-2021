@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoteBehavior : Display 
+public class NoteBehavior : MonoBehaviour 
 {
     //Time in second to indicate after how much time should the object be destroyed when the Destroy function is called
     public float destroyObjectIn;
 
     private Vector3 finalPosition;
+    
     private float startSpawning;
+
     private bool showShape;
     private float chronometer = 0; 
- 
     private Quaternion target;
-
     public GameObject sucessEffectPrefab, failedEffectPrefab, shapePrefab;
     GameObject shape;
+
+    public float Velocity;
+    public float SpawningLocation; 
 
 
     // Start is called before the first frame update
@@ -24,7 +27,7 @@ public class NoteBehavior : Display
         showShape = false; //For sliderNote 
 
         Time.timeScale = 1;
-        startSpawning = -4 * Mathf.Log(spawningLocation); //to get starting z 
+        startSpawning = -4 * Mathf.Log(SpawningLocation); //to get starting z 
 
         if (this.gameObject.tag == "SpecialNote")
         {
@@ -52,7 +55,7 @@ public class NoteBehavior : Display
         if(showShape == false)
         { 
             #region Move the GameObject
-            float step = velocity * Time.deltaTime; // calculate distance to move
+            float step = Velocity * Time.deltaTime; // calculate distance to move
  
             //Debug.Log("Note behavior step " + step);
             startSpawning += step;
@@ -118,14 +121,14 @@ public class NoteBehavior : Display
 
         if (other.gameObject.tag == "Bar")
             if (gameObject.tag == "SimpleNote")
-                Destroy(gameObject, destroyObjectIn + 5 / velocity);
+                Destroy(gameObject, destroyObjectIn + 5 / Velocity);
             else if (gameObject.tag == "SpecialNote")
-                Destroy(gameObject, destroyObjectIn + 5 / velocity);
+                Destroy(gameObject, destroyObjectIn + 5 / Velocity);
             else if (gameObject.tag == "SliderNote")
             {
                 //Debug.Log("Position " + transform.position.z + " " + transform.position.y);
                 showShape = true;
-                Destroy(gameObject, destroyObjectIn*2 + 5 / velocity);
+                Destroy(gameObject, destroyObjectIn*2 + 5 / Velocity);
                 
             }
                 
