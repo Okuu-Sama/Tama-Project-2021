@@ -9,6 +9,7 @@ TagManager:
   - SimpleNote
   - SliderNote
   - SpecialNote
+  - RhythmCore
   layers:
   - Default
   - TransparentFX
