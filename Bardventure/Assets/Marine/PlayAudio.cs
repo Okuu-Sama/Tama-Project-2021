@@ -52,10 +52,10 @@ public class PlayAudio : MonoBehaviour
     {
         #region Play Music 
         timing += Time.deltaTime;
-
+        
         if (timing >= musicStart && !audiosource.isPlaying)
             audiosource.Play();
-
+        
 
 
         #endregion

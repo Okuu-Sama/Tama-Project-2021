@@ -40,7 +40,6 @@ public class GestureTest: MonoBehaviour
     private GameObject cube;
     private GameObject cube2;
     private bool handForward = false;
-    private bool handmovingForward = false;
     bool firstTimeHandForward = false;
     float firstZPosition = -1000;
 
@@ -64,7 +63,10 @@ public class GestureTest: MonoBehaviour
             fingerBones = new List<OVRBone>(skeleton.Bones);
             Save();
         }
-        cube.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+
+        
+        SliderGestureDetection(0, 0);
+        /*cube.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         cube2.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         fingerBones = new List<OVRBone>(skeleton.Bones);
         if (SimpleGestureDetection(1)) {
@@ -73,7 +75,7 @@ public class GestureTest: MonoBehaviour
         if (SimpleGestureDetection(0))
         {
             cube2.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-        }
+        }*/
 
         //specialGesture = SpecialGestureDetection();
         /*Gesture currentGesture = Recognize();
@@ -245,6 +247,8 @@ public class GestureTest: MonoBehaviour
             xRotation = rightHandPrefab.transform.rotation.eulerAngles.x;
             yRotation = rightHandPrefab.transform.rotation.eulerAngles.y;
             zRotation = rightHandPrefab.transform.rotation.eulerAngles.z;
+
+            
             if (xRotation < 0)
             {
                 xRotation = xRotation + 360;
@@ -316,4 +320,39 @@ public class GestureTest: MonoBehaviour
         return executed;
 
     }
-}
+
+    public bool SliderGestureDetection(int trackSide, float time)
+    {
+        bool executed = false;
+        float xPosition = 0;
+        float yPosition = 0;
+        float zPosition = 0;
+
+        
+
+        if (trackSide == 0)
+        {
+            fingerBones = new List<OVRBone>(rightHandPrefab.GetComponent<OVRSkeleton>().Bones);
+            xPosition = rightHandPrefab.transform.position.x;
+            yPosition = rightHandPrefab.transform.position.y;
+            zPosition = rightHandPrefab.transform.position.z;
+            
+        }
+        else
+        {
+            fingerBones = new List<OVRBone>(leftHandPrefab.GetComponent<OVRSkeleton>().Bones);
+            xPosition = leftHandPrefab.transform.position.x;
+            yPosition = leftHandPrefab.transform.position.y;
+            zPosition = leftHandPrefab.transform.position.z;
+        }
+        float xPalmPosition = (fingerBones[3].Transform.position.x + fingerBones[15].Transform.position.x) / 2;
+        float yPalmPosition = (fingerBones[3].Transform.position.y + fingerBones[15].Transform.position.y) / 2;
+        float zPalmPosition = fingerBones[15].Transform.position.z;
+
+        Debug.Log("Wrist x :" + xPosition + " y :" + yPosition + " z :" + zPosition);
+        Debug.Log("Palm x :" + xPalmPosition + " y :" + yPalmPosition + " z :" + zPalmPosition);
+
+        return executed;
+    }
+
+    }

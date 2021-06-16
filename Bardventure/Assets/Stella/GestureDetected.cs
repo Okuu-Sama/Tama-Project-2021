@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class GestureDetected : MonoBehaviour
 {
     public Text m_MyText;
-    private SpecialNote test = new SpecialNote(0f,0,0f,0f,0);
+    private SpecialNote test = new SpecialNote(10f, 0,0,0,0);
+    private SimpleNote simpleTest = new SimpleNote(0, 0, 0, 0, 0);
     private GameObject gestureRecognition;
     private GestureTest[] myGestureTestCompTable;
     private GestureTest myGestureTestComp;
@@ -16,7 +17,7 @@ public class GestureDetected : MonoBehaviour
 
         if (note is SimpleNote) {
             m_MyText.text = "Simple Note detected!";
-            if (Input.GetKey(KeyCode.Space)) //myGestureTestComp.SimpleGestureDetection(((SimpleNote)note).TrackSide)
+            if (myGestureTestComp.SimpleGestureDetection(((SimpleNote)note).TrackSide)) 
             {
                 m_MyText.text = "Right gesture for simple note";
                 return true;
@@ -31,8 +32,7 @@ public class GestureDetected : MonoBehaviour
             }
         } else if (note is SpecialNote) {
             m_MyText.text = "Special Note detected!";
-            //TODO differentiate left and right notes
-            //myGestureTestComp = myGestureTestCompTable[((SpecialNote)note).];
+            myGestureTestComp = myGestureTestCompTable[((SpecialNote)note).TrackSide];
             if (myGestureTestComp.SpecialGestureDetection(((SpecialNote)note).Time))
             {
                 m_MyText.text = "Right gesture for special note";
@@ -53,7 +53,7 @@ public class GestureDetected : MonoBehaviour
         myGestureTestCompTable = gestureRecognition.GetComponents<GestureTest>();
         myGestureTestComp = myGestureTestCompTable[0];
         m_MyText.text = "No note detected";
-        test.Time = 10f;
+
         
     }
 
@@ -61,6 +61,6 @@ public class GestureDetected : MonoBehaviour
     void Update()
     {
         
-        //rightGesture(test);
+        rightGesture(simpleTest);
     }
 }
