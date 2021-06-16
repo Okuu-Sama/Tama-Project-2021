@@ -22,6 +22,10 @@ public static class NoteListGenerator
         IEnumerable<Note> listNote = mymidi.GetNotes();
         TempoMap tempomap = mymidi.GetTempoMap();
 
+        //For slider's spheres data
+        //Current max nb of sphere is 10
+        Vector3[] sphereSpaceData = new Vector3[10];
+
         foreach (Note note in listNote)
         {
             //gesture = (Gestures)values.GetValue(myrand.Next(values.Length));
@@ -32,6 +36,19 @@ public static class NoteListGenerator
             {
                 if (note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f > 1f)
                     rhythmCore.addToNoteList(new SpecialNote(note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 100, note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1f, track));
+                else if (note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f > 2f)
+                {
+                    for(int i = 1;i<6;i++)
+                    {
+                        var rad = 2 * Mathf.PI / 6 * i;
+                        var vertical = Mathf.Sin(rad);
+                        var horizontal = Mathf.Cos(rad);
+
+                        Vector3 spherePosition = new Vector3(horizontal, 0, vertical);
+                        sphereSpaceData[i - 1] = spherePosition;
+                        // Add now slider note to list of note with the data
+                    }
+                }
                 else
                     rhythmCore.addToNoteList(new SimpleNote(0, 100, note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1, track));
             }

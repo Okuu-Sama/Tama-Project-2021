@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GestureDetected : MonoBehaviour
 {
     public Text m_MyText;
-    private SpecialNote test = new SpecialNote();
+    private SpecialNote test = new SpecialNote(0f,0,0f,0f,0);
     private GameObject gestureRecognition;
     private GestureTest[] myGestureTestCompTable;
     private GestureTest myGestureTestComp;

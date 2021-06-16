@@ -55,8 +55,8 @@ public class RhythmCore : MonoBehaviour
         writer = new StreamWriter(path, true);
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
+        //display = new Display();
 
-        display = new Display();
         NoteListGenerator.GenerateList(this);
     }
 
@@ -88,6 +88,8 @@ public class RhythmCore : MonoBehaviour
 
         if(notes != null && notes[iterator].Time <=  songposition)
         {
+            //display.DisplayNote(notes[iterator].GetType(),notes[iterator].);
+            //displayObj.GetComponent<Display>().DisplayNote();
             noteInfo.text = notes[iterator].ToString();
             iterator++;
             if (iterator == notes.Count) notes = null;

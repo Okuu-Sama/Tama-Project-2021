@@ -1243,6 +1243,7 @@ MonoBehaviour:
   songInfo: {fileID: 993518893}
   noteInfo: {fileID: 712352705}
   testSphere: {fileID: 279048505}
+  displayObj: {fileID: 0}
 --- !u!4 &2091838182
 Transform:
   m_ObjectHideFlags: 0
