@@ -97,7 +97,6 @@ public class NoteBehavior : MonoBehaviour
         else
         {
             #region SliderNote reveals its pattern
-            chronometer += Time.deltaTime;
 
             if (chronometer == 0)
             {
@@ -109,10 +108,9 @@ public class NoteBehavior : MonoBehaviour
                 transform.position = shape.transform.GetChild(0).position;
                 transform.localScale = new Vector3(shapePrefab.transform.localScale.x * transform.localScale.x, shapePrefab.transform.localScale.y * transform.localScale.y, shapePrefab.transform.localScale.z * transform.localScale.z);
             }
-                
+            chronometer += Time.deltaTime;
 
-
-            if (chronometer >= destroyObjectIn-0.1f)
+            if (chronometer >= destroyObjectIn)
             {
                 showShape = false;
                 transform.localScale = previousScalingOfPrefab; 
@@ -140,7 +138,7 @@ public class NoteBehavior : MonoBehaviour
             {
                 //Debug.Log("Position " + transform.position.z + " " + transform.position.y);
                 showShape = true;
-                Destroy(gameObject, destroyObjectIn*2 + 5 / Velocity);
+                Destroy(gameObject, 10.0f); //destroyObjectIn*2 + 5 / Velocity);
                 
             }
                 
