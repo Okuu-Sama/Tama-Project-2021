@@ -2,19 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoteBehavior : Display 
+public class NoteBehavior : MonoBehaviour 
 {
     //Time in second to indicate after how much time should the object be destroyed when the Destroy function is called
     public float destroyObjectIn;
 
-    private Vector3 finalPosition;
+    #region variables for displacmeent/rotation 
+    private Vector3 finalPosition;  
     private float startSpawning;
-    private bool showShape;
-    private float chronometer = 0; 
- 
     private Quaternion target;
+    public float Velocity;
+    public float SpawningLocation;
+    #endregion
 
-    public GameObject sucessEffectPrefab, failedEffectPrefab; 
+    #region SliderNote prefab needed variable
+    private bool showShape;
+    private float chronometer = 0;
+    private Vector3 previousScalingOfPrefab;
+    #endregion
+
+    #region gameObject/prefab
+    public GameObject sucessEffectPrefab, failedEffectPrefab, shapePrefab;
+    GameObject shape;
+    #endregion
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +35,8 @@ public class NoteBehavior : Display
         showShape = false; //For sliderNote 
 
         Time.timeScale = 1;
-        startSpawning = -4 * Mathf.Log(spawningLocation); //to get starting z 
+
+        startSpawning = -4 * Mathf.Log(SpawningLocation); //to get starting z 
 
         if (this.gameObject.tag == "SpecialNote")
         {
@@ -50,7 +64,7 @@ public class NoteBehavior : Display
         if(showShape == false)
         { 
             #region Move the GameObject
-            float step = velocity * Time.deltaTime; // calculate distance to move
+            float step = Velocity * Time.deltaTime; // calculate distance to move
  
             //Debug.Log("Note behavior step " + step);
             startSpawning += step;
@@ -64,11 +78,13 @@ public class NoteBehavior : Display
             #region exponential trajectory
             finalPosition.x = this.transform.position.x; // 2D trajectory, x doesn't matter
             finalPosition.z = startSpawning;
-            finalPosition.y = Mathf.Exp(-finalPosition.z / 4);
+            finalPosition.y = Mathf.Exp(-finalPosition.z / 4);//Mathf.Exp(-finalPosition.z / 4);
             transform.position = finalPosition;
             #endregion
 
             #endregion
+
+             
 
             #region rotate if GameObject is type SpecialNote
 
@@ -80,12 +96,30 @@ public class NoteBehavior : Display
         }
         else
         {
+            #region SliderNote reveals its pattern
+
+            if (chronometer == 0)
+            {
+                Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y/2, transform.position.z);
+                previousScalingOfPrefab = transform.localScale;  
+                
+                shape = Instantiate(shapePrefab, positionOfPrefab, Quaternion.identity) as GameObject;
+                
+                transform.position = shape.transform.GetChild(0).position;
+                transform.localScale = new Vector3(shapePrefab.transform.localScale.x * transform.localScale.x, shapePrefab.transform.localScale.y * transform.localScale.y, shapePrefab.transform.localScale.z * transform.localScale.z);
+            }
             chronometer += Time.deltaTime;
 
             if (chronometer >= destroyObjectIn)
-                showShape = false; 
+            {
+                showShape = false;
+                transform.localScale = previousScalingOfPrefab; 
+                Destroy(shape); 
+            }
+
+            #endregion
         }
-            
+
 
 
 
@@ -96,14 +130,16 @@ public class NoteBehavior : Display
         //Debug.Log("Collision "+gameObject.name+ " "+ gameObject.tag + " "+destroyObjectIn);
 
         if (other.gameObject.tag == "Bar")
-            if (this.gameObject.tag == "SimpleNote")
-                Destroy(this.gameObject, destroyObjectIn + 5 / velocity);
-            else if (this.gameObject.tag == "SpecialNote")
-                Destroy(this.gameObject, destroyObjectIn + 5 / velocity);
-            else if (this.gameObject.tag == "SliderNote")
+            if (gameObject.tag == "SimpleNote")
+                Destroy(gameObject, destroyObjectIn + 5 / Velocity);
+            else if (gameObject.tag == "SpecialNote")
+                Destroy(gameObject, destroyObjectIn + 5 / Velocity);
+            else if (gameObject.tag == "SliderNote")
             {
+                //Debug.Log("Position " + transform.position.z + " " + transform.position.y);
                 showShape = true;
-                Destroy(this.gameObject, destroyObjectIn*2 + 5 / velocity);
+                Destroy(gameObject, 10.0f); //destroyObjectIn*2 + 5 / Velocity);
+                
             }
                 
 
@@ -111,6 +147,7 @@ public class NoteBehavior : Display
 
     }
 
+    // Function to display effect 
     private void Suceed()
     {
         GameObject visualEffect = Instantiate(sucessEffectPrefab, new Vector3(transform.position.x+0.2f, transform.position.y + 0.2f, transform.position.z + 0.2f), Quaternion.identity) as GameObject;
