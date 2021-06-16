@@ -72,7 +72,7 @@ public class Display
 
 
         }
-        else
+        else if (noteType == NoteType.SliderNote.ToString())
         {
             note = GameObject.Instantiate(SliderNotePrefab, new Vector3(Track(track), SpawningLocation, -4 * Mathf.Log(SpawningLocation)), Quaternion.identity) as GameObject;
             
