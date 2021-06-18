@@ -38,7 +38,7 @@ public static class NoteListGenerator
                     rhythmCore.addToNoteList(new SpecialNote(note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 100, note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1f, track));
                 else if (note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f > 2f)
                 {
-                    for(int i = 1;i<6;i++)
+                    /*for(int i = 1;i<6;i++)
                     {
                         var rad = 2 * Mathf.PI / 6 * i;
                         var vertical = Mathf.Sin(rad);
@@ -47,7 +47,7 @@ public static class NoteListGenerator
                         Vector3 spherePosition = new Vector3(horizontal, 0, vertical);
                         sphereSpaceData[i - 1] = spherePosition;
                         // Add now slider note to list of note with the data
-                    }
+                    }*/
                 }
                 else
                     rhythmCore.addToNoteList(new SimpleNote(0, 100, note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1, track));
