@@ -96,9 +96,49 @@ public class Display
         }
     }
 
+
+    public Vector3[] GetSliderNoteFinalPosition(string noteType)
+    {
+        if (noteType == NoteType.SliderNote.ToString())
+        {
+            
+            
+            int numberOfChild = SliderNotePrefab.GetComponent<NoteBehavior>().transform.childCount;
+            Vector3[] position = new Vector3[numberOfChild];
+
+            float barLocation = GameObject.Find("Bar").transform.position.z;
+
+            int iterator = 0; 
+
+            while(iterator < numberOfChild)
+            {
+                position[iterator] = new Vector3();
+                iterator++; 
+            }
+
+            return position; 
+
+
+        }
+
+        return null; 
+    }
+
+    public void SetScore(float score)
+    {
+        GameObject.Find("Canvas").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = score.ToString(); 
+    }
+
+    public void AddToScore(float score)
+    {
+        score += float.Parse(GameObject.Find("Canvas").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text);
+        GameObject.Find("Canvas").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = score.ToString();
+    }
+
+}
   
 
 
-}
+
 
 

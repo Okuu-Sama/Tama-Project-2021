@@ -50,6 +50,9 @@ public class PlayAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log("TIMTING "+timing); 
+        display.AddToScore(timing); 
         #region Play Music 
         timing += Time.deltaTime;
         

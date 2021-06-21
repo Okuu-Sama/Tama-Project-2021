@@ -84,7 +84,6 @@ public class NoteBehavior : MonoBehaviour
 
             #endregion
 
-             
 
             #region rotate if GameObject is type SpecialNote
 
@@ -100,12 +99,14 @@ public class NoteBehavior : MonoBehaviour
 
             if (chronometer == 0)
             {
-                Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y/2, transform.position.z);
+                Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y / 2, transform.position.z);
                 previousScalingOfPrefab = transform.localScale;  
                 
                 shape = Instantiate(shapePrefab, positionOfPrefab, Quaternion.identity) as GameObject;
                 
                 transform.position = shape.transform.GetChild(0).position;
+                Debug.Log(shape.transform.GetChild(0).position);
+                Debug.Log(shape.transform.GetChild(1).position); 
                 transform.localScale = new Vector3(shapePrefab.transform.localScale.x * transform.localScale.x, shapePrefab.transform.localScale.y * transform.localScale.y, shapePrefab.transform.localScale.z * transform.localScale.z);
             }
             chronometer += Time.deltaTime;
@@ -131,14 +132,14 @@ public class NoteBehavior : MonoBehaviour
 
         if (other.gameObject.tag == "Bar")
             if (gameObject.tag == "SimpleNote")
-                Destroy(gameObject, destroyObjectIn + 5 / Velocity);
+                Destroy(gameObject, destroyObjectIn + 2 / Velocity);
             else if (gameObject.tag == "SpecialNote")
-                Destroy(gameObject, destroyObjectIn + 5 / Velocity);
+                Destroy(gameObject, destroyObjectIn + 2 / Velocity);
             else if (gameObject.tag == "SliderNote")
             {
                 //Debug.Log("Position " + transform.position.z + " " + transform.position.y);
                 showShape = true;
-                Destroy(gameObject, 10.0f); //destroyObjectIn*2 + 5 / Velocity);
+                Destroy(gameObject, destroyObjectIn + 2 / Velocity); //destroyObjectIn*2 + 5 / Velocity);
                 
             }
                 
