@@ -44,6 +44,11 @@ public class RhythmCore : MonoBehaviour
         notes.Add(note);
     }
 
+    public float getBallVelocity()
+    {
+        return display.Velocity;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

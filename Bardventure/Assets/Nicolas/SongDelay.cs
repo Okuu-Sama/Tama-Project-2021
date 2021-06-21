@@ -8,6 +8,10 @@ public class SongDelay : MonoBehaviour
     void Start()
     {
         AudioSource audioSource = GetComponent<AudioSource>();
+        GameObject Rcore = GameObject.FindWithTag("RhythmCore");
+        Debug.Log(Rcore);
+        RhythmCore rhythmCore = Rcore.GetComponent<RhythmCore>();
+        float velocity = rhythmCore.getBallVelocity();
         audioSource.PlayDelayed(10f);
         Debug.Log("properly delayed");
     }
