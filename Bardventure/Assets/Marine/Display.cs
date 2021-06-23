@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Display 
@@ -65,7 +66,6 @@ public class Display
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
 
-            Debug.Log("Size slider: " + velocity * duration); 
             note.transform.localScale = new Vector3(note.transform.localScale.x, (velocity * duration)/(SpecialNotePrefab.transform.localScale.y) , note.transform.localScale.z);
             note.GetComponent<NoteBehavior>().destroyObjectIn = duration;
 
@@ -97,31 +97,39 @@ public class Display
     }
 
 
-    public Vector3[] GetSliderNoteFinalPosition(string noteType)
+    public void GetSliderNoteFinalPosition(string noteType, int track) //track = 0 or 1 
     {
         if (noteType == NoteType.SliderNote.ToString())
         {
-            
-            
-            int numberOfChild = SliderNotePrefab.GetComponent<NoteBehavior>().transform.childCount;
-            Vector3[] position = new Vector3[numberOfChild];
+            GameObject cerclePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/CercleSliderNote.prefab", typeof(GameObject)); 
 
-            float barLocation = GameObject.Find("Bar").transform.position.z;
 
-            int iterator = 0; 
+            int numberOfChild = cerclePrefab.transform.childCount;
+            //float[][] position = new float[numberOfChild][]; 
+            Vector3[] position = new Vector3[numberOfChild] ; 
 
-            while(iterator < numberOfChild)
+            float barLocation = -0.05366753f; //GameObject.Find("Bar").transform.position.z;
+            float trackLocation = Track(track);
+
+            float finalPositionY = Mathf.Exp(-barLocation / 4) - 0.3f / 2; 
+
+            int iterator = 1;
+
+            while (iterator < numberOfChild)
             {
-                position[iterator] = new Vector3();
+
+
+                position[iterator] = new Vector3(trackLocation+ cerclePrefab.transform.GetChild(iterator).position.x * 0.3f,finalPositionY + cerclePrefab.transform.GetChild(iterator).position.y * 0.3f, barLocation);
+                Debug.Log("POSITION " +position[iterator].x + " "+ position[iterator].y + " " + position[iterator].z); 
                 iterator++; 
             }
 
-            return position; 
+            //return position; 
 
 
         }
 
-        return null; 
+        //return null; 
     }
 
     public void SetScore(float score)

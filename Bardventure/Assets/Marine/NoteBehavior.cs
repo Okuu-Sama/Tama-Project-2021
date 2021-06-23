@@ -99,15 +99,16 @@ public class NoteBehavior : MonoBehaviour
 
             if (chronometer == 0)
             {
-                Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - shapePrefab.transform.localScale.y / 2, transform.position.z);
+                Vector3 positionOfPrefab = new Vector3(transform.position.x, transform.position.y - 0.3f / 2, transform.position.z);
                 previousScalingOfPrefab = transform.localScale;  
                 
                 shape = Instantiate(shapePrefab, positionOfPrefab, Quaternion.identity) as GameObject;
+                shape.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f); 
                 
                 transform.position = shape.transform.GetChild(0).position;
                 Debug.Log(shape.transform.GetChild(0).position);
                 Debug.Log(shape.transform.GetChild(1).position); 
-                transform.localScale = new Vector3(shapePrefab.transform.localScale.x * transform.localScale.x, shapePrefab.transform.localScale.y * transform.localScale.y, shapePrefab.transform.localScale.z * transform.localScale.z);
+                transform.localScale = new Vector3(shape.transform.localScale.x * transform.localScale.x, shape.transform.localScale.y * transform.localScale.y, shape.transform.localScale.z * transform.localScale.z);
             }
             chronometer += Time.deltaTime;
 
@@ -125,10 +126,9 @@ public class NoteBehavior : MonoBehaviour
 
 
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Collision "+gameObject.name+ " "+ gameObject.tag + " "+destroyObjectIn);
 
         if (other.gameObject.tag == "Bar")
             if (gameObject.tag == "SimpleNote")
@@ -137,16 +137,16 @@ public class NoteBehavior : MonoBehaviour
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity);
             else if (gameObject.tag == "SliderNote")
             {
-                //Debug.Log("Position " + transform.position.z + " " + transform.position.y);
+                Debug.Log("Collider " + transform.position.x + " " + transform.position.y + " " + transform.position.z);
                 showShape = true;
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity); //destroyObjectIn*2 + 5 / Velocity);
+                Debug.Log("COLLIDER "+other.transform.position); 
                 
             }
-                
-
-
 
     }
+    
+
 
     // Function to display effect 
     private void Suceed()
