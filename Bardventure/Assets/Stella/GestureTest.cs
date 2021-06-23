@@ -14,6 +14,15 @@ public struct Gesture
 }
 public class GestureTest: MonoBehaviour
 {
+    //Constant variables
+    private const float specialDurationMargin = 0.1f;
+    private const float SimplePositionMargin = 0.1f;
+    private const float ballRadius = 0.018f;
+    private const float sliderDetectionRadius = 0.04f;
+    private const float sliderTimingMargin = 0.1f;
+    private const float simpleTimingMargin = 0.2f;
+    private const float specialTimingMargin = 0.1f;
+
     //Recognize and Save variables
     public float threshold = 0.1f;
     public OVRSkeleton skeleton;
@@ -43,6 +52,11 @@ public class GestureTest: MonoBehaviour
     bool firstTimeHandForward = false;
     float firstZPosition = -1000;
 
+    //Slider gesture variables
+    float songposition = 0;
+    float dsptimesong;
+    public AudioSource audioSource;
+    private GameObject sphere;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +66,9 @@ public class GestureTest: MonoBehaviour
         rightHandPrefab = GameObject.Find("OVRHandPrefabRight");
         cube = GameObject.Find("Cube");
         cube2 = GameObject.Find("Cube2");
+        sphere = GameObject.Find("Sphere");
+        dsptimesong = (float)AudioSettings.dspTime;
+        
 
     }
 
@@ -63,9 +80,14 @@ public class GestureTest: MonoBehaviour
             fingerBones = new List<OVRBone>(skeleton.Bones);
             Save();
         }
-
+        songposition = (float)(AudioSettings.dspTime - dsptimesong);
+        Debug.Log(songposition);
+        sphere.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+        if (SliderGestureDetection(0, 5f, 0, 1, 0.2f))
+        {
+            sphere.GetComponent<Renderer>().material.color = new Color(0, 0, 255);
+        }
         
-        SliderGestureDetection(0, 0);
         /*cube.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         cube2.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         fingerBones = new List<OVRBone>(skeleton.Bones);
@@ -139,7 +161,7 @@ public class GestureTest: MonoBehaviour
     }
 
 
-    public bool SpecialGestureDetection(float time)
+    public bool SpecialGestureDetection(float duration, float time)
     {
         bool executed = false;
 
@@ -163,9 +185,10 @@ public class GestureTest: MonoBehaviour
                     Debug.Log("Closed for " + (openingTime - closingTime));
                     isOpenedAfterCondition = true;
 
-                    Debug.Log("Comparing if " + (openingTime - closingTime) + ">" + (time * 1.1) + " and " + (openingTime - closingTime) + "<" + (time * 0.9) );
-                    if ((openingTime - closingTime) < (time * 1.1) && (openingTime - closingTime) > (time * 0.9))
-                    { //10% TIMING error
+                    Debug.Log("Comparing if " + (openingTime - closingTime) + ">" + (duration * (1+specialDurationMargin)) + " and " + (openingTime - closingTime) + "<" + (duration * (1-specialDurationMargin)) );
+                    if (((openingTime - closingTime) < (duration * (1+specialDurationMargin))) && ((openingTime - closingTime) > (duration * (1-specialDurationMargin))) && (((time + specialTimingMargin) > songposition) && ((time - specialTimingMargin) < songposition)))
+                    { //10% DURATION error
+
                         Debug.Log("Third condition validated");
                         timingRespectedCondition = true;
                     }
@@ -211,7 +234,7 @@ public class GestureTest: MonoBehaviour
     }
 
 
-    public bool SimpleGestureDetection(int trackSide) {
+    public bool SimpleGestureDetection(int trackSide, float time) {
         bool executed = false;
         
        
@@ -233,7 +256,7 @@ public class GestureTest: MonoBehaviour
         if (handForward==true)
         {
             //Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
-            if (currentZPosition>= (firstZPosition + 0.1)) {
+            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > songposition) && ((time - simpleTimingMargin) < songposition))) {
                 //Debug.Log("MOVED FORWARD");
                 executed = true;
             }
@@ -321,37 +344,43 @@ public class GestureTest: MonoBehaviour
 
     }
 
-    public bool SliderGestureDetection(int trackSide, float time)
+    public bool SliderGestureDetection(int trackSide, float time, float xBallPosition, float yBallPosition, float zBallPosition)
     {
         bool executed = false;
-        float xPosition = 0;
-        float yPosition = 0;
-        float zPosition = 0;
+        float xPalmPosition = 0;
+        float yPalmPosition = 0;
+        float zPalmPosition = 0;
 
         
-
-        if (trackSide == 0)
+        if (((time + sliderTimingMargin) > songposition) && ((time - sliderTimingMargin) < songposition))
         {
-            fingerBones = new List<OVRBone>(rightHandPrefab.GetComponent<OVRSkeleton>().Bones);
-            xPosition = rightHandPrefab.transform.position.x;
-            yPosition = rightHandPrefab.transform.position.y;
-            zPosition = rightHandPrefab.transform.position.z;
-            
+            Debug.Log("IN THE BIG IF CONDITION");
+            if (trackSide == 0)
+            {
+                fingerBones = new List<OVRBone>(rightHandPrefab.GetComponent<OVRSkeleton>().Bones);
+
+            }
+            else
+            {
+                fingerBones = new List<OVRBone>(leftHandPrefab.GetComponent<OVRSkeleton>().Bones);
+
+            }
+            xPalmPosition = (fingerBones[9].Transform.position.x);
+            yPalmPosition = (fingerBones[3].Transform.position.y + fingerBones[15].Transform.position.y) / 2;
+            zPalmPosition = fingerBones[15].Transform.position.z;
+
+            Debug.Log("Palm x :" + xPalmPosition + " y :" + yPalmPosition + " z :" + zPalmPosition);
+
+            if (!(System.Math.Sqrt((xBallPosition - xPalmPosition) * (xBallPosition - xPalmPosition) + (yBallPosition - yPalmPosition) * (yBallPosition - yPalmPosition) + (zBallPosition - zPalmPosition) * (zBallPosition - zPalmPosition)) > (ballRadius + sliderDetectionRadius)))
+            {
+                executed = true;
+            }
         }
-        else
+        if (executed) 
         {
-            fingerBones = new List<OVRBone>(leftHandPrefab.GetComponent<OVRSkeleton>().Bones);
-            xPosition = leftHandPrefab.transform.position.x;
-            yPosition = leftHandPrefab.transform.position.y;
-            zPosition = leftHandPrefab.transform.position.z;
+            Debug.Log("COLLISION");
         }
-        float xPalmPosition = (fingerBones[3].Transform.position.x + fingerBones[15].Transform.position.x) / 2;
-        float yPalmPosition = (fingerBones[3].Transform.position.y + fingerBones[15].Transform.position.y) / 2;
-        float zPalmPosition = fingerBones[15].Transform.position.z;
-
-        Debug.Log("Wrist x :" + xPosition + " y :" + yPosition + " z :" + zPosition);
-        Debug.Log("Palm x :" + xPalmPosition + " y :" + yPalmPosition + " z :" + zPalmPosition);
-
+        
         return executed;
     }
 
