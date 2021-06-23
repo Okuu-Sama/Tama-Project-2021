@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class SliderNote : INote
 {
+    /// <summary>
+    /// Struct representing the position where a sphere composing the slider is
+    /// and the time at which the sphere is
+    /// </summary>
+    struct SpaceTimeData
+    {
+        Vector3 position;
+        float timeAt;
+    }
+
+    private SpaceTimeData spheresData;
+
     private float duration;
     private Vector3[] path;
 
