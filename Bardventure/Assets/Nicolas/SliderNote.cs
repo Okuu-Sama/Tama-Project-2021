@@ -10,14 +10,13 @@ public class SliderNote : INote
     /// </summary>
     struct SpaceTimeData
     {
-        Vector3 position;
-        float timeAt;
+        public Vector3 position;
+        public float atTime;
     }
 
-    private SpaceTimeData spheresData;
+    private SpaceTimeData[] spheresData;
 
     private float duration;
-    private Vector3[] path;
 
     private int points;
     private float time, velocity;
@@ -27,13 +26,31 @@ public class SliderNote : INote
     public float Velocity { get => velocity; set => velocity = value; }
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
-    public Vector3[] Path { get => path; }
     public int TrackSide { get => TrackSide; set => TrackSide = value   ; }
 
     public void SetPath(string _form)
     {
         throw new System.NotImplementedException();
     }
+
+    public SliderNote(Vector3[] _ballsCoordinates, float _timeForNote,float _duration ,int _points , float _time, float _velocity, int _track)
+    {
+        duration = _duration;
+        points = _points;
+        time = _time;
+        velocity = _velocity;
+        TrackSide = _track;
+        float temp = _time;
+
+        spheresData = new SpaceTimeData[_ballsCoordinates.Length];
+        for (int i = 0; i < _ballsCoordinates.Length; ++i)
+        {
+            spheresData[i].position = _ballsCoordinates[i];
+            spheresData[i].atTime = temp;
+            temp += _timeForNote;
+        }
+    }
+
 
     public override string ToString()
     {
