@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using System.IO;
 using System.Linq;
@@ -46,6 +47,7 @@ public class RhythmCore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //audioSource.PlayDelayed(10f);
         nameOfSong = audioSource.clip.name;
         playerScore = new PointsManager();
         lastbeat = 0;
@@ -55,9 +57,12 @@ public class RhythmCore : MonoBehaviour
         writer = new StreamWriter(path, true);
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
+        display = new Display((GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SimpleNote.prefab", typeof(GameObject)),
+        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SpecialNote.prefab", typeof(GameObject)),
+        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)),
+        1.0f, 10.0f, GameObject.Find("OVRCameraRig").transform.position);
 
-        display = new Display();
-        NoteListGenerator.GenerateList(this);
+        NoteListGenerator.GenerateList(this); 
     }
 
     // Update is called once per frame
@@ -69,7 +74,8 @@ public class RhythmCore : MonoBehaviour
                         " Audio time (source):" + audioSource.time.ToString() +
                         "Audiotime(setting): " + AudioSettings.dspTime.ToString() +
                         " songpostion: " + songposition +
-                        "Score test: " + playerScore.GetScore().ToString();
+                        "Score test: " + playerScore.GetScore().ToString() +
+                        "name of song: " + nameOfSong;
         if (songposition > lastbeat + crochet)
         {
             if (counter == 0)
@@ -88,7 +94,17 @@ public class RhythmCore : MonoBehaviour
 
         if(notes != null && notes[iterator].Time <=  songposition)
         {
+            //display.DisplayNote(notes[iterator].GetType(),notes[iterator].);
+            //displayObj.GetComponent<Display>().DisplayNote();
             noteInfo.text = notes[iterator].ToString();
+            if(notes[iterator] is SimpleNote)
+            {
+                display.DisplayNote(notes[iterator].GetType().ToString(), notes[iterator].TrackSide);
+            }
+            if(notes[iterator] is SpecialNote)
+            {
+                display.DisplayNote(notes[iterator].GetType().ToString(), notes[iterator].Time, notes[iterator].TrackSide);
+            }
             iterator++;
             if (iterator == notes.Count) notes = null;
         }
