@@ -97,7 +97,7 @@ public class Display
     }
 
 
-    public void GetSliderNoteFinalPosition(string noteType, int track) //track = 0 or 1 
+    public Vector3[] GetSliderNoteFinalPosition(string noteType, int track) //track = 0 or 1 
     {
         if (noteType == NoteType.SliderNote.ToString())
         {
@@ -105,16 +105,19 @@ public class Display
 
 
             int numberOfChild = cerclePrefab.transform.childCount;
-            //float[][] position = new float[numberOfChild][]; 
+            
             Vector3[] position = new Vector3[numberOfChild] ;
 
              
 
-            float barLocation = -0.05366753f; 
+            float barLocation = GameObject.Find("Bar").transform.position.z;
+           
             float trackLocation = Track(track);
 
-            float finalPositionY = Mathf.Exp(-barLocation / 4) - 0.3f / 2; 
+            float finalPositionY = Mathf.Exp(-barLocation / 4) - 0.3f / 2;
 
+            position[0] = new Vector3(trackLocation, finalPositionY , barLocation);
+            
             int iterator = 1;
 
             while (iterator < numberOfChild)
@@ -122,16 +125,16 @@ public class Display
 
 
                 position[iterator] = new Vector3(trackLocation+ cerclePrefab.transform.GetChild(iterator).position.x * 0.3f,finalPositionY + cerclePrefab.transform.GetChild(iterator).position.y * 0.3f, barLocation);
-                Debug.Log("POSITION " +position[iterator].x + " "+ position[iterator].y + " " + position[iterator].z); 
+               
                 iterator++; 
             }
 
-            //return position; 
+            return position; 
 
 
         }
 
-        //return null; 
+        return null; 
     }
 
     public void SetScore(float score)

@@ -137,12 +137,12 @@ public class NoteBehavior : MonoBehaviour
             else if (gameObject.tag == "SliderNote")
             {
 
-                Debug.Log("DISTANCE BTW COLLIDERS " + Mathf.Sqrt(Mathf.Pow(other.transform.position.z - transform.position.z, 2))); 
-                Debug.Log("OFFSET " + transform.GetComponent<SphereCollider>().contactOffset + " " + other.contactOffset); 
+                //Debug.Log("DISTANCE BTW COLLIDERS " + Mathf.Sqrt(Mathf.Pow(other.transform.position.z - transform.position.z, 2))); 
+                //Debug.Log("OFFSET " + transform.GetComponent<SphereCollider>().contactOffset + " " + other.contactOffset); 
                 showShape = true;
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity); //destroyObjectIn*2 + 5 / Velocity);
-                Debug.Log("OBJECT " + transform.position.z); 
-                Debug.Log("COLLIDER "+other.transform.position);
+                //Debug.Log("OBJECT " + transform.position.z); 
+                //Debug.Log("COLLIDER "+other.transform.position);
 
 
             }
