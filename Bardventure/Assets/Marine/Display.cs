@@ -106,9 +106,11 @@ public class Display
 
             int numberOfChild = cerclePrefab.transform.childCount;
             //float[][] position = new float[numberOfChild][]; 
-            Vector3[] position = new Vector3[numberOfChild] ; 
+            Vector3[] position = new Vector3[numberOfChild] ;
 
-            float barLocation = -0.05366753f; //GameObject.Find("Bar").transform.position.z;
+             
+
+            float barLocation = -0.05366753f; 
             float trackLocation = Track(track);
 
             float finalPositionY = Mathf.Exp(-barLocation / 4) - 0.3f / 2; 

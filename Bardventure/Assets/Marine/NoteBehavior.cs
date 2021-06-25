@@ -106,8 +106,7 @@ public class NoteBehavior : MonoBehaviour
                 shape.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f); 
                 
                 transform.position = shape.transform.GetChild(0).position;
-                Debug.Log(shape.transform.GetChild(0).position);
-                Debug.Log(shape.transform.GetChild(1).position); 
+
                 transform.localScale = new Vector3(shape.transform.localScale.x * transform.localScale.x, shape.transform.localScale.y * transform.localScale.y, shape.transform.localScale.z * transform.localScale.z);
             }
             chronometer += Time.deltaTime;
@@ -129,7 +128,7 @@ public class NoteBehavior : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-
+        
         if (other.gameObject.tag == "Bar")
             if (gameObject.tag == "SimpleNote")
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity);
@@ -137,11 +136,15 @@ public class NoteBehavior : MonoBehaviour
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity);
             else if (gameObject.tag == "SliderNote")
             {
-                Debug.Log("Collider " + transform.position.x + " " + transform.position.y + " " + transform.position.z);
+
+                Debug.Log("DISTANCE BTW COLLIDERS " + Mathf.Sqrt(Mathf.Pow(other.transform.position.z - transform.position.z, 2))); 
+                Debug.Log("OFFSET " + transform.GetComponent<SphereCollider>().contactOffset + " " + other.contactOffset); 
                 showShape = true;
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity); //destroyObjectIn*2 + 5 / Velocity);
-                Debug.Log("COLLIDER "+other.transform.position); 
-                
+                Debug.Log("OBJECT " + transform.position.z); 
+                Debug.Log("COLLIDER "+other.transform.position);
+
+
             }
 
     }
