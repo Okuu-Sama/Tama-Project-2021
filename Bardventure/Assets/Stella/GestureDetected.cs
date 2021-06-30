@@ -7,7 +7,7 @@ public class GestureDetected : MonoBehaviour
 {
     public Text m_MyText;
     private SpecialNote test = new SpecialNote(10f, 0,0,0,0);
-    private SimpleNote simpleTest = new SimpleNote(0, 0, 0, 0, 0);
+    private SimpleNote simpleTest = new SimpleNote(0, 0, 10f, 0, 0);
     private GameObject gestureRecognition;
     private GestureTest[] myGestureTestCompTable;
     private GestureTest myGestureTestComp;
@@ -33,7 +33,7 @@ public class GestureDetected : MonoBehaviour
         } else if (note is SpecialNote) {
             m_MyText.text = "Special Note detected!";
             myGestureTestComp = myGestureTestCompTable[((SpecialNote)note).TrackSide];
-            if (myGestureTestComp.SpecialGestureDetection(((SpecialNote)note).Duration, ((SpecialNote)note).Time))
+            if (myGestureTestComp.SpecialGestureDetection(((SpecialNote)note).Duration, ((SpecialNote)note).Time, ((SpecialNote)note).TrackSide))
             {
                 m_MyText.text = "Right gesture for special note";
                 return true;

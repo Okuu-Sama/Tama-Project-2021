@@ -15,13 +15,13 @@ public struct Gesture
 public class GestureTest: MonoBehaviour
 {
     //Constant variables
-    private const float specialDurationMargin = 0.1f;
+    private const float specialDurationMargin = 0.15f;
     private const float SimplePositionMargin = 0.1f;
     private const float ballRadius = 0.018f;
     private const float sliderDetectionRadius = 0.04f;
     private const float sliderTimingMargin = 0.1f;
-    private const float simpleTimingMargin = 0.2f;
-    private const float specialTimingMargin = 0.1f;
+    private const float simpleTimingMargin = 0.3f;
+    private const float specialTimingMargin = 0.5f;
 
     //Recognize and Save variables
     public float threshold = 0.1f;
@@ -36,6 +36,7 @@ public class GestureTest: MonoBehaviour
 
     private bool wasClosedCondition = false;
     private bool isOpenedAfterCondition = false;
+    private bool durationRespectedCondition = false;
     private bool timingRespectedCondition = false;
     private bool hasRecognizedClenched = false;
     private bool hasRecognizedOpen = false;
@@ -75,31 +76,31 @@ public class GestureTest: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(debugMode && Input.GetKeyDown(KeyCode.Space))
+        /*if(debugMode && Input.GetKeyDown(KeyCode.Space))
         {
             fingerBones = new List<OVRBone>(skeleton.Bones);
             Save();
-        }
+        }*/
         songposition = (float)(AudioSettings.dspTime - dsptimesong);
         Debug.Log(songposition);
-        sphere.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+        /*sphere.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         if (SliderGestureDetection(0, 5f, 0, 1, 0.2f))
         {
             sphere.GetComponent<Renderer>().material.color = new Color(0, 0, 255);
-        }
+        }*/
         
         /*cube.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         cube2.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
-        fingerBones = new List<OVRBone>(skeleton.Bones);
-        if (SimpleGestureDetection(1)) {
+        fingerBones = new List<OVRBone>(skeleton.Bones);*/
+        /*if (SimpleGestureDetection(1, 10f)) {
             cube.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
         }
-        if (SimpleGestureDetection(0))
+        if (SimpleGestureDetection(0, 10f))
         {
             cube2.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         }*/
 
-        //specialGesture = SpecialGestureDetection();
+        specialGesture = SpecialGestureDetection(5f, 10f,0);
         /*Gesture currentGesture = Recognize();
         bool hasRecognized = !currentGesture.Equals(new Gesture());
         if (hasRecognized && !currentGesture.Equals(previousGesture))
@@ -161,8 +162,18 @@ public class GestureTest: MonoBehaviour
     }
 
 
-    public bool SpecialGestureDetection(float duration, float time)
+    public bool SpecialGestureDetection(float duration, float time, int trackSide)
     {
+        if (trackSide == 0)
+        {
+            fingerBones = new List<OVRBone>(rightHandPrefab.GetComponent<OVRSkeleton>().Bones);
+
+        }
+        else
+        {
+            fingerBones = new List<OVRBone>(leftHandPrefab.GetComponent<OVRSkeleton>().Bones);
+
+        }
         bool executed = false;
 
         //first = fist clenched, second = open just after, third = duration right
@@ -185,29 +196,34 @@ public class GestureTest: MonoBehaviour
                     Debug.Log("Closed for " + (openingTime - closingTime));
                     isOpenedAfterCondition = true;
 
-                    Debug.Log("Comparing if " + (openingTime - closingTime) + ">" + (duration * (1+specialDurationMargin)) + " and " + (openingTime - closingTime) + "<" + (duration * (1-specialDurationMargin)) );
-                    if (((openingTime - closingTime) < (duration * (1+specialDurationMargin))) && ((openingTime - closingTime) > (duration * (1-specialDurationMargin))) && (((time + specialTimingMargin) > songposition) && ((time - specialTimingMargin) < songposition)))
-                    { //10% DURATION error
+                    //Debug.Log("Comparing if " + (openingTime - closingTime) + ">" + (duration * (1+specialDurationMargin)) + " and " + (openingTime - closingTime) + "<" + (duration * (1-specialDurationMargin)) );
+                    if (((openingTime - closingTime) < (duration * (1+specialDurationMargin))) && ((openingTime - closingTime) > (duration * (1-specialDurationMargin))))
+                    { //15% DURATION error
 
                         Debug.Log("Third condition validated");
-                        timingRespectedCondition = true;
+                        durationRespectedCondition = true;
                     }
 
                 }
                 else
                 {
                     wasClosedCondition = false;
+                    timingRespectedCondition = false;
 
                 }
             }
             
             if (hasRecognizedClenched && !wasClosedCondition)
             {
+                if ((((time + specialTimingMargin) > songposition) && ((time - specialTimingMargin) < songposition)))
+                {
+                    timingRespectedCondition = true;
+                }
                 closingTime = Time.time;
                 wasClosedCondition = true;
                 Debug.Log("First condition validated");
                 
-                
+
 
             }
 
@@ -216,20 +232,22 @@ public class GestureTest: MonoBehaviour
             
 
             Debug.Log("Second condition is: " + isOpenedAfterCondition);
-            Debug.Log("Third condition is: " + timingRespectedCondition);
+            Debug.Log("Third condition is: " + durationRespectedCondition);
         }
 
 
 
         
         
-        if (isOpenedAfterCondition && timingRespectedCondition) 
+        if (isOpenedAfterCondition && durationRespectedCondition && timingRespectedCondition) 
         {
+            Debug.Log("EVERY CONDITIONS ARE RESPECTED");
             executed = true;
         }
 
         isOpenedAfterCondition = false;
-        timingRespectedCondition = false;
+        durationRespectedCondition = false;
+        
         return executed;
     }
 
@@ -257,7 +275,7 @@ public class GestureTest: MonoBehaviour
         {
             //Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
             if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > songposition) && ((time - simpleTimingMargin) < songposition))) {
-                //Debug.Log("MOVED FORWARD");
+                Debug.Log("MOVED FORWARD");
                 executed = true;
             }
             //TODO detect moving forward??
