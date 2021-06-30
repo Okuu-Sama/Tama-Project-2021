@@ -20,7 +20,7 @@ public class PlayAudio : MonoBehaviour
     #region test sample
     private readonly float[] time = new float[] { 0, 0.5f, 1, 1.5f, 2, 3, 4, 4.5f, 5, 5.5f };
     protected float[] duration = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 1, 1, 0.5f, 0.5f, 0.5f, 0.5f };
-    private readonly string[] typeNote = new string[] { "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote", "SliderNote", "SliderNote", "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote" };
+    private readonly string[] typeNote = new string[] { "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote", "SpecialNote", "SliderNote", "SimpleNote", "SimpleNote", "SimpleNote", "SimpleNote" };
 
     #endregion
 
