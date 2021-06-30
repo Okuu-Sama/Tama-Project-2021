@@ -8,13 +8,13 @@ public class SliderNote : INote
     /// Struct representing the position where a sphere composing the slider is
     /// and the time at which the sphere is
     /// </summary>
-    struct SpaceTimeData
+    public struct SpaceTimeData
     {
         public Vector3 position;
         public float atTime;
     }
 
-    private SpaceTimeData[] spheresData;
+    public SpaceTimeData[] spheresData;
 
     private float duration;
 
@@ -28,10 +28,6 @@ public class SliderNote : INote
     public float Duration { get => duration; set => duration = value; }
     public int TrackSide { get => TrackSide; set => TrackSide = value   ; }
 
-    public void SetPath(string _form)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public SliderNote(Vector3[] _ballsCoordinates, float _timeForNote,float _duration ,int _points , float _time, float _velocity, int _track)
     {

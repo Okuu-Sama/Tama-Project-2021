@@ -40,9 +40,22 @@ public class RhythmCore : MonoBehaviour
         return nameOfSong;
     }
 
+    /// <summary>
+    /// Get the absolute time of the song. Start when the scene start.
+    /// </summary>
+    /// <returns></returns>
     public float getSongPosition()
     {
         return songposition;
+    }
+
+    /// <summary>
+    /// Get the relative time of the song. Start when the song audio start.
+    /// </summary>
+    /// <returns></returns>
+    public float getTimeOfSong()
+    {
+        return audioSource.time;
     }
 
     public void addToNoteList(INote note)
