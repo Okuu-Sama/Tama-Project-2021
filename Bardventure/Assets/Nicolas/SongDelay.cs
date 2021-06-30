@@ -8,8 +8,12 @@ public class SongDelay : MonoBehaviour
     void Start()
     {
         AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.PlayDelayed(10f);
-        Debug.Log("properly delayed");
+        GameObject Rcore = GameObject.FindWithTag("RhythmCore");
+        Debug.Log(Rcore);
+        RhythmCore rhythmCore = Rcore.GetComponent<RhythmCore>();
+        float velocity = rhythmCore.getBallVelocity();
+        audioSource.PlayDelayed(9*velocity);
+        //audioSource.PlayDelayed(9f);
     }
 
     // Update is called once per frame

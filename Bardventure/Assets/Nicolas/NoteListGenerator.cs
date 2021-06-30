@@ -21,6 +21,18 @@ public static class NoteListGenerator
         IEnumerable<Note> listNoteviolin = notesviolin.ToList();
         IEnumerable<Note> listNote = mymidi.GetNotes();
         TempoMap tempomap = mymidi.GetTempoMap();
+        var timesignature = tempomap.GetTimeSignatureChanges();
+        Vector3[] ballscoordinates = new Vector3[10]; //Add function call to get coordinate from display
+
+
+        Debug.Log("timesig START");
+        foreach (var timesig in timesignature)
+        {
+            Debug.Log(timesig.ToString());
+            Debug.Log(timesig.Value.Numerator.ToString());
+            Debug.Log(timesig.Value.Denominator.ToString());
+        }
+        Debug.Log("timesig END");
 
         //For slider's spheres data
         //Current max nb of sphere is 10
@@ -38,6 +50,9 @@ public static class NoteListGenerator
                     rhythmCore.addToNoteList(new SpecialNote(note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 100, note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1f, track));
                 else if (note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f > 2f)
                 {
+                    float timeOfBall = note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / (float)ballscoordinates.Length;
+                    rhythmCore.addToNoteList(new SliderNote(ballscoordinates, timeOfBall, note.LengthAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 100, note.TimeAs<MetricTimeSpan>(tempomap).TotalMicroseconds / 1000000f, 1f, track));
+
                     /*for(int i = 1;i<6;i++)
                     {
                         var rad = 2 * Mathf.PI / 6 * i;
