@@ -19,6 +19,7 @@ public class RhythmCore : MonoBehaviour
     readonly float bpm = 120;
     float lastbeat;
     float crochet;
+    float diffculty;    //Represent the velocity at which the note come to the player, defined when selecting diffulty of the song at song screen select
     Color red = new Color(1f,0f,0f,0f);
     Color blue = new Color(0f, 0f, 1f, 0f);
     int counter=0;
@@ -39,9 +40,32 @@ public class RhythmCore : MonoBehaviour
         return nameOfSong;
     }
 
+    /// <summary>
+    /// Get the absolute time of the song. Start when the scene start.
+    /// </summary>
+    /// <returns></returns>
+    public float getSongPosition()
+    {
+        return songposition;
+    }
+
+    /// <summary>
+    /// Get the relative time of the song. Start when the song audio start.
+    /// </summary>
+    /// <returns></returns>
+    public float getTimeOfSong()
+    {
+        return audioSource.time;
+    }
+
     public void addToNoteList(INote note)
     {
         notes.Add(note);
+    }
+
+    public float getBallVelocity()
+    {
+        return display.Velocity;
     }
 
     // Start is called before the first frame update
@@ -62,7 +86,7 @@ public class RhythmCore : MonoBehaviour
         (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)),
         1.0f, 10.0f, GameObject.Find("OVRCameraRig").transform.position);
 
-        NoteListGenerator.GenerateList(this); 
+        NoteListGenerator.GenerateList(this);
     }
 
     // Update is called once per frame
@@ -103,7 +127,7 @@ public class RhythmCore : MonoBehaviour
             }
             if(notes[iterator] is SpecialNote)
             {
-                display.DisplayNote(notes[iterator].GetType().ToString(), notes[iterator].Time, notes[iterator].TrackSide);
+                display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SpecialNote).Duration, notes[iterator].TrackSide);
             }
             iterator++;
             if (iterator == notes.Count) notes = null;
