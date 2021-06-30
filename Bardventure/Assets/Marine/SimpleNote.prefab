@@ -110,11 +110,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyObjectIn: 0
+  Velocity: 0
+  SpawningLocation: 0
   sucessEffectPrefab: {fileID: 1855340746554395461, guid: 49011e57640af4346b984abcfb1cf581, type: 3}
   failedEffectPrefab: {fileID: 0}
   shapePrefab: {fileID: 0}
-  Velocity: 0
-  SpawningLocation: 0
 --- !u!54 &2149010974572240552
 Rigidbody:
   m_ObjectHideFlags: 0

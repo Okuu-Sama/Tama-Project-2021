@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Display 
@@ -65,7 +66,6 @@ public class Display
             note.GetComponent<NoteBehavior>().Velocity = Velocity;
             note.GetComponent<NoteBehavior>().SpawningLocation = SpawningLocation;
 
-            Debug.Log("Size slider: " + velocity * duration); 
             note.transform.localScale = new Vector3(note.transform.localScale.x, (velocity * duration)/(SpecialNotePrefab.transform.localScale.y) , note.transform.localScale.z);
             note.GetComponent<NoteBehavior>().destroyObjectIn = duration;
 
@@ -96,9 +96,62 @@ public class Display
         }
     }
 
+
+    public Vector3[] GetSliderNoteFinalPosition(string noteType, int track) //track = 0 or 1 
+    {
+        if (noteType == NoteType.SliderNote.ToString())
+        {
+            GameObject cerclePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/CercleSliderNote.prefab", typeof(GameObject)); 
+
+
+            int numberOfChild = cerclePrefab.transform.childCount;
+            
+            Vector3[] position = new Vector3[numberOfChild] ;
+
+             
+
+            float barLocation = GameObject.Find("Bar").transform.position.z;
+           
+            float trackLocation = Track(track);
+
+            float finalPositionY = Mathf.Exp(-barLocation / 4) - 0.3f / 2;
+
+            position[0] = new Vector3(trackLocation, finalPositionY , barLocation);
+            
+            int iterator = 1;
+
+            while (iterator < numberOfChild)
+            {
+
+
+                position[iterator] = new Vector3(trackLocation+ cerclePrefab.transform.GetChild(iterator).position.x * 0.3f,finalPositionY + cerclePrefab.transform.GetChild(iterator).position.y * 0.3f, barLocation);
+               
+                iterator++; 
+            }
+
+            return position; 
+
+
+        }
+
+        return null; 
+    }
+
+    public void SetScore(float score)
+    {
+        GameObject.Find("Canvas").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = score.ToString(); 
+    }
+
+    public void AddToScore(float score)
+    {
+        score += float.Parse(GameObject.Find("Canvas").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text);
+        GameObject.Find("Canvas").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = score.ToString();
+    }
+
+}
   
 
 
-}
+
 
 
