@@ -5,10 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes: []
-<<<<<<< HEAD
-  m_configObjects: {}
-=======
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 66a4dffd8ae6d9b469495805df578d52, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: beabbcc50882fec4cb8fa360d2539ce1, type: 2}
->>>>>>> stella
