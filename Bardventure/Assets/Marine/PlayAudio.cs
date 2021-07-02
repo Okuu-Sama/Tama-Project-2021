@@ -36,11 +36,12 @@ public class PlayAudio : MonoBehaviour
         #endregion
 
         #region launch Display
-        display = new Display((GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SimpleNote.prefab", typeof(GameObject)),
-        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SpecialNote.prefab", typeof(GameObject)),
-        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)), 
+        display = new Display( Resources.Load("Notes/SimpleNote") as GameObject ,
+         Resources.Load("Notes/SpecialNote") as GameObject,
+         Resources.Load("Notes/SliderNote") as GameObject, 
         velocity, spawningLocation, GameObject.Find("OVRCameraRig").transform.position);
 
+        
 
         #endregion
 
