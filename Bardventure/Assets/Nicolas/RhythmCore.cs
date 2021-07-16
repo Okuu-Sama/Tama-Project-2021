@@ -68,6 +68,11 @@ public class RhythmCore : MonoBehaviour
         return display.Velocity;
     }
 
+    public Display getDisplay()
+    {
+        return display;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -128,6 +133,10 @@ public class RhythmCore : MonoBehaviour
             if(notes[iterator] is SpecialNote)
             {
                 display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SpecialNote).Duration, notes[iterator].TrackSide);
+            }
+            if(notes[iterator] is SliderNote)
+            {
+                display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SliderNote).Duration, notes[iterator].TrackSide);
             }
             iterator++;
             if (iterator == notes.Count) notes = null;
