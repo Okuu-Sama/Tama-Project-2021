@@ -101,7 +101,7 @@ public class Display
     {
         if (noteType == NoteType.SliderNote.ToString())
         {
-            GameObject cerclePrefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/CercleSliderNote.prefab", typeof(GameObject)); 
+            GameObject cerclePrefab = Resources.Load("Notes/CercleSliderNote") as GameObject; 
 
 
             int numberOfChild = cerclePrefab.transform.childCount;
