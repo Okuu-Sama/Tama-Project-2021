@@ -106,7 +106,7 @@ public class NoteBehavior : MonoBehaviour
                 shape.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f); 
                 
                 transform.position = shape.transform.GetChild(0).position;
-
+                colorCercleSliderNoteChildren(); 
                 transform.localScale = new Vector3(shape.transform.localScale.x * transform.localScale.x, shape.transform.localScale.y * transform.localScale.y, shape.transform.localScale.z * transform.localScale.z);
             }
             chronometer += Time.deltaTime;
@@ -167,7 +167,26 @@ public class NoteBehavior : MonoBehaviour
         Destroy(visualEffect, 0.1f); 
     }
 
+    private void colorCercleSliderNoteChildren() // from black to blue 
+    {
+        int iterator = 1;
+        int numberOfChild = shape.transform.childCount; 
+        Color32 originalColor = transform.GetComponent<Renderer>().material.color;
+        int r = originalColor.r; 
+        int g = originalColor.g;
+        int b = originalColor.b; 
 
+        while (iterator < numberOfChild)
+        {
+            r += ((255 / 2)/numberOfChild);
+            g += ((255 / 2)/numberOfChild);
+            b += (255 / numberOfChild);
+            shape.transform.GetChild(iterator).GetComponent<Renderer>().material.color = new Color32( (byte)r, (byte)g, (byte)b, 255);
+
+            iterator += 1; 
+        }
+
+    }
 
 
 }

@@ -18,7 +18,7 @@ public class SliderNote : INote
 
     private float duration;
 
-    private int points;
+    private int points,trackside;
     private float time, velocity;
     private Material image;
     public int Points { get => points; set => points = value; }
@@ -26,7 +26,7 @@ public class SliderNote : INote
     public float Velocity { get => velocity; set => velocity = value; }
     public Material Image { get => image; set => throw new System.NotImplementedException(); }
     public float Duration { get => duration; set => duration = value; }
-    public int TrackSide { get => TrackSide; set => TrackSide = value   ; }
+    public int TrackSide { get => trackside; set => trackside = value   ; }
 
 
     public SliderNote(Vector3[] _ballsCoordinates, float _timeForNote,float _duration ,int _points , float _time, float _velocity, int _track)
@@ -35,7 +35,7 @@ public class SliderNote : INote
         points = _points;
         time = _time;
         velocity = _velocity;
-        TrackSide = _track;
+        trackside = _track;
         float temp = _time;
 
         spheresData = new SpaceTimeData[_ballsCoordinates.Length];
