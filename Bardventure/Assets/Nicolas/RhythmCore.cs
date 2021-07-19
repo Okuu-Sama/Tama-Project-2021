@@ -34,6 +34,7 @@ public class RhythmCore : MonoBehaviour
     private int iterator = 0;
 
     private Display display;
+    private GestureDetected gestureDetection;
 
     public string getNameOfSong()
     {
@@ -86,10 +87,13 @@ public class RhythmCore : MonoBehaviour
         writer = new StreamWriter(path, true);
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
         writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
-        display = new Display((GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SimpleNote.prefab", typeof(GameObject)),
-        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SpecialNote.prefab", typeof(GameObject)),
-        (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Marine/SliderNote.prefab", typeof(GameObject)),
-        1.0f, 10.0f, GameObject.Find("OVRCameraRig").transform.position);
+        display = new Display( Resources.Load("Notes/SimpleNote") as GameObject ,
+         Resources.Load("Notes/SpecialNote") as GameObject,
+         Resources.Load("Notes/SliderNote") as GameObject,
+        1.0f, 5.0f, GameObject.Find("OVRCameraRig").transform.position);
+
+        GameObject gestureObj = GameObject.Find("GestureDetected");
+        gestureDetection = gestureObj.GetComponent<GestureDetected>();
 
         NoteListGenerator.GenerateList(this);
     }
@@ -129,14 +133,17 @@ public class RhythmCore : MonoBehaviour
             if(notes[iterator] is SimpleNote)
             {
                 display.DisplayNote(notes[iterator].GetType().ToString(), notes[iterator].TrackSide);
+                gestureDetection.rightGesture(notes[iterator]);
             }
             if(notes[iterator] is SpecialNote)
             {
                 display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SpecialNote).Duration, notes[iterator].TrackSide);
+                gestureDetection.rightGesture(notes[iterator]);
             }
             if(notes[iterator] is SliderNote)
             {
                 display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SliderNote).Duration, notes[iterator].TrackSide);
+                gestureDetection.rightGesture(notes[iterator]);
             }
             iterator++;
             if (iterator == notes.Count) notes = null;
