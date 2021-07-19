@@ -54,10 +54,14 @@ public class GestureTest: MonoBehaviour
     float firstZPosition = -1000;
 
     //Slider gesture variables
-    float songposition = 0;
+    //float songposition = 0;
     float dsptimesong;
     public AudioSource audioSource;
     private GameObject sphere;
+
+    //Song position variables
+    private GameObject rhythmCoreObject;
+    private RhythmCore rhythmCore;
 
     // Start is called before the first frame update
     void Start()
@@ -68,8 +72,10 @@ public class GestureTest: MonoBehaviour
         cube = GameObject.Find("Cube");
         cube2 = GameObject.Find("Cube2");
         sphere = GameObject.Find("Sphere");
-        dsptimesong = (float)AudioSettings.dspTime;
-        
+        //dsptimesong = (float)AudioSettings.dspTime;
+        rhythmCoreObject = GameObject.Find("RhythmCoreObj");
+        rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
+
 
     }
 
@@ -81,8 +87,8 @@ public class GestureTest: MonoBehaviour
             fingerBones = new List<OVRBone>(skeleton.Bones);
             Save();
         }*/
-        songposition = (float)(AudioSettings.dspTime - dsptimesong);
-        Debug.Log(songposition);
+        //songposition = (float)(AudioSettings.dspTime - dsptimesong);
+        //Debug.Log(songposition);
         /*sphere.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         if (SliderGestureDetection(0, 5f, 0, 1, 0.2f))
         {
@@ -100,7 +106,7 @@ public class GestureTest: MonoBehaviour
             cube2.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         }*/
 
-        specialGesture = SpecialGestureDetection(5f, 10f,0);
+        //specialGesture = SpecialGestureDetection(5f, 10f,0);
         /*Gesture currentGesture = Recognize();
         bool hasRecognized = !currentGesture.Equals(new Gesture());
         if (hasRecognized && !currentGesture.Equals(previousGesture))
@@ -215,7 +221,7 @@ public class GestureTest: MonoBehaviour
             
             if (hasRecognizedClenched && !wasClosedCondition)
             {
-                if ((((time + specialTimingMargin) > songposition) && ((time - specialTimingMargin) < songposition)))
+                if ((((time + specialTimingMargin) > rhythmCore.getSongPosition()) && ((time - specialTimingMargin) < rhythmCore.getSongPosition())))
                 {
                     timingRespectedCondition = true;
                 }
@@ -274,7 +280,7 @@ public class GestureTest: MonoBehaviour
         if (handForward==true)
         {
             //Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
-            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > songposition) && ((time - simpleTimingMargin) < songposition))) {
+            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > rhythmCore.getSongPosition()) && ((time - simpleTimingMargin) < rhythmCore.getSongPosition()))) {
                 Debug.Log("MOVED FORWARD");
                 executed = true;
             }
@@ -370,7 +376,7 @@ public class GestureTest: MonoBehaviour
         float zPalmPosition = 0;
 
         
-        if (((time + sliderTimingMargin) > songposition) && ((time - sliderTimingMargin) < songposition))
+        if (((time + sliderTimingMargin) > rhythmCore.getSongPosition()) && ((time - sliderTimingMargin) < rhythmCore.getSongPosition()))
         {
             Debug.Log("IN THE BIG IF CONDITION");
             if (trackSide == 0)
