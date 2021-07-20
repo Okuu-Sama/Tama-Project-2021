@@ -28,4 +28,9 @@ public class PointsManager
         _score = (int)((_score + points) * _multiplier);
     }
 
+    public void ResetMultiplier()
+    {
+        _multiplier = 0;
+    }
+
 }
