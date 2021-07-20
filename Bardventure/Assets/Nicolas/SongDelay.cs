@@ -11,8 +11,10 @@ public class SongDelay : MonoBehaviour
         GameObject Rcore = GameObject.FindWithTag("RhythmCore");
         Debug.Log(Rcore);
         RhythmCore rhythmCore = Rcore.GetComponent<RhythmCore>();
+        float barLocation = GameObject.Find("Bar").transform.position.z;
         float velocity = rhythmCore.getBallVelocity();
-        audioSource.PlayDelayed(9*velocity);
+        float delay = Mathf.Abs(-4 * Mathf.Log(rhythmCore.getDisplay().SpawningLocation) - barLocation) / rhythmCore.getDisplay().Velocity;
+        audioSource.PlayDelayed(delay);
         //audioSource.PlayDelayed(9f);
     }
 
