@@ -14,6 +14,8 @@ public class RhythmCore : MonoBehaviour
     public AudioSource audioSource;
     public Text songInfo;
     public Text noteInfo;
+    public Text scoreInfo;
+    public Text gameplayInfo;
     public GameObject testSphere;
     private string nameOfSong;
     readonly float bpm = 120;
@@ -28,10 +30,15 @@ public class RhythmCore : MonoBehaviour
     string path;
     StreamWriter writer;
     int token = 0;
+    int combo = 0;
+    INote previousNote;
+    bool successHit = false;
 
     private List<INote> notes = new List<INote>();
+    private List<INote> notesForDetection = new List<INote>();
     private PointsManager playerScore;
-    private int iterator = 0;
+    private int iteratorDisplay = 0;
+    private int iteratorDetection = 0;
 
     private Display display;
     private GestureDetected gestureDetection;
@@ -80,6 +87,7 @@ public class RhythmCore : MonoBehaviour
         //audioSource.PlayDelayed(10f);
         nameOfSong = audioSource.clip.name;
         playerScore = new PointsManager();
+        scoreInfo.text = playerScore.GetScore().ToString();
         lastbeat = 0;
         crochet = 60f / bpm;
         dsptimesong = (float)AudioSettings.dspTime;
@@ -96,6 +104,8 @@ public class RhythmCore : MonoBehaviour
         gestureDetection = gestureObj.GetComponent<GestureDetected>();
 
         NoteListGenerator.GenerateList(this);
+        notesForDetection = notes.ToList();
+        previousNote = notesForDetection[0];
     }
 
     // Update is called once per frame
@@ -125,31 +135,51 @@ public class RhythmCore : MonoBehaviour
             lastbeat += crochet;
         }
 
-        if(notes != null && notes[iterator].Time <=  songposition)
+        if(notes != null && notes[iteratorDisplay].Time <=  songposition)
         {
             //display.DisplayNote(notes[iterator].GetType(),notes[iterator].);
             //displayObj.GetComponent<Display>().DisplayNote();
-            noteInfo.text = notes[iterator].ToString();
-            if(notes[iterator] is SimpleNote)
+            noteInfo.text = notes[iteratorDisplay].ToString();
+            if(notes[iteratorDisplay] is SimpleNote)
             {
-                display.DisplayNote(notes[iterator].GetType().ToString(), notes[iterator].TrackSide);
-                gestureDetection.rightGesture(notes[iterator]);
+                display.DisplayNote(notes[iteratorDisplay].GetType().ToString(), notes[iteratorDisplay].TrackSide);
             }
-            if(notes[iterator] is SpecialNote)
+            if(notes[iteratorDisplay] is SpecialNote)
             {
-                display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SpecialNote).Duration, notes[iterator].TrackSide);
-                gestureDetection.rightGesture(notes[iterator]);
+                display.DisplayNote(notes[iteratorDisplay].GetType().ToString(), (notes[iteratorDisplay] as SpecialNote).Duration, notes[iteratorDisplay].TrackSide);
             }
-            if(notes[iterator] is SliderNote)
+            if(notes[iteratorDisplay] is SliderNote)
             {
-                display.DisplayNote(notes[iterator].GetType().ToString(), (notes[iterator] as SliderNote).Duration, notes[iterator].TrackSide);
-                gestureDetection.rightGesture(notes[iterator]);
+                display.DisplayNote(notes[iteratorDisplay].GetType().ToString(), (notes[iteratorDisplay] as SliderNote).Duration, notes[iteratorDisplay].TrackSide);
             }
-            iterator++;
-            if (iterator == notes.Count) notes = null;
+            iteratorDisplay++;
+            if (iteratorDisplay == notes.Count) notes = null;
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (notesForDetection != null && notesForDetection[iteratorDetection].Time <= audioSource.time)
+        {
+            Debug.Log("note found for detection");
+            if(gestureDetection.rightGesture(notesForDetection[iteratorDetection]))
+            {
+                //Add success animation
+                gameplayInfo.text = "NOTE HIT";
+                successHit = true;
+                playerScore.ScoreUp(notesForDetection[iteratorDetection].Points);
+                combo++;
+                if (combo % 10 == 0) playerScore.MultiplierUp();
+            }
+            if(previousNote != notesForDetection[iteratorDetection] && !successHit)
+            {
+                gameplayInfo.text = "NOTE MISSED";
+                combo = 0;
+                playerScore.ResetMultiplier();
+            }
+            if (iteratorDetection == notesForDetection.Count) notesForDetection = null;
+            if (notesForDetection[iteratorDetection+1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f) 
+                iteratorDetection++;
+        }
+
+            if (Input.GetKeyDown(KeyCode.K))
         {
             if (token == 0)
             {
