@@ -221,7 +221,7 @@ public class GestureTest: MonoBehaviour
             
             if (hasRecognizedClenched && !wasClosedCondition)
             {
-                if ((((time + specialTimingMargin) > rhythmCore.getSongPosition()) && ((time - specialTimingMargin) < rhythmCore.getSongPosition())))
+                if ((((time + specialTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - specialTimingMargin) < rhythmCore.getTimeOfSong())))
                 {
                     timingRespectedCondition = true;
                 }
@@ -280,7 +280,7 @@ public class GestureTest: MonoBehaviour
         if (handForward==true)
         {
             //Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
-            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > rhythmCore.getSongPosition()) && ((time - simpleTimingMargin) < rhythmCore.getSongPosition()))) {
+            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - simpleTimingMargin) < rhythmCore.getTimeOfSong()))) {
                 Debug.Log("MOVED FORWARD");
                 executed = true;
             }
@@ -376,7 +376,7 @@ public class GestureTest: MonoBehaviour
         float zPalmPosition = 0;
 
         
-        if (((time + sliderTimingMargin) > rhythmCore.getSongPosition()) && ((time - sliderTimingMargin) < rhythmCore.getSongPosition()))
+        if (((time + sliderTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - sliderTimingMargin) < rhythmCore.getTimeOfSong()))
         {
             Debug.Log("IN THE BIG IF CONDITION");
             if (trackSide == 0)
