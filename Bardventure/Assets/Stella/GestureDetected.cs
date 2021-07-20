@@ -31,7 +31,7 @@ public class GestureDetected : MonoBehaviour
             //m_MyText.text = "Slider Note detected!";
             
             if (sliderIterator< ((SliderNote)note).spheresData.Length) {
-                if ((rhythmCore.getSongPosition() > ((SliderNote)note).spheresData[sliderIterator].atTime + 0.1) && currentBallValidated == false)
+                if ((rhythmCore.getTimeOfSong() > ((SliderNote)note).spheresData[sliderIterator].atTime + 0.1) && currentBallValidated == false)
                 {
                     sliderIterator = 0;
                     return false;
