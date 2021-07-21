@@ -159,7 +159,8 @@ public class RhythmCore : MonoBehaviour
         if (notesForDetection != null && notesForDetection[iteratorDetection].Time <= audioSource.time)
         {
             Debug.Log("note found for detection");
-            if(gestureDetection.rightGesture(notesForDetection[iteratorDetection]))
+            Debug.Log("current index:"+iteratorDetection);
+            if (gestureDetection.rightGesture(notesForDetection[iteratorDetection]))
             {
                 //Add success animation
                 gameplayInfo.text = "NOTE HIT";
@@ -167,16 +168,22 @@ public class RhythmCore : MonoBehaviour
                 playerScore.ScoreUp(notesForDetection[iteratorDetection].Points);
                 combo++;
                 if (combo % 10 == 0) playerScore.MultiplierUp();
+                //previousNote = notesForDetection[iteratorDetection];
             }
-            if(previousNote != notesForDetection[iteratorDetection] && !successHit)
+            if(notesForDetection[iteratorDetection].Time + 0.24f < audioSource.time && !successHit)
             {
                 gameplayInfo.text = "NOTE MISSED";
                 combo = 0;
                 playerScore.ResetMultiplier();
             }
             if (iteratorDetection == notesForDetection.Count) notesForDetection = null;
-            if (notesForDetection[iteratorDetection+1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f) 
+            if (notesForDetection[iteratorDetection+1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f)
+            {
+                previousNote = notesForDetection[iteratorDetection];
                 iteratorDetection++;
+                successHit = false;
+            }
+                
         }
 
             if (Input.GetKeyDown(KeyCode.K))
