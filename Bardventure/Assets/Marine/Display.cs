@@ -40,8 +40,8 @@ public class Display
         velocity = _velocity;
         spawningLocation = _spawningLocation;
 
-        RightTrack = position.x + 0.4f;
-        LeftTrack = position.x - 0.4f; 
+        RightTrack = position.x + 0.15f;
+        LeftTrack = position.x - 0.15f; 
 
     }
 
