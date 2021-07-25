@@ -54,7 +54,7 @@ public class GestureTest: MonoBehaviour
     float firstZPosition = -1000;
 
     //Slider gesture variables
-    //float songposition = 0;
+    float songposition = 0;
     float dsptimesong;
     public AudioSource audioSource;
     private GameObject sphere;
@@ -72,7 +72,7 @@ public class GestureTest: MonoBehaviour
         cube = GameObject.Find("Cube");
         cube2 = GameObject.Find("Cube2");
         sphere = GameObject.Find("Sphere");
-        //dsptimesong = (float)AudioSettings.dspTime;
+        dsptimesong = (float)AudioSettings.dspTime;
         rhythmCoreObject = GameObject.Find("RhythmCoreObj");
         rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
 
@@ -87,8 +87,8 @@ public class GestureTest: MonoBehaviour
             fingerBones = new List<OVRBone>(skeleton.Bones);
             Save();
         }*/
-        //songposition = (float)(AudioSettings.dspTime - dsptimesong);
-        //Debug.Log(songposition);
+        songposition = (float)(AudioSettings.dspTime - dsptimesong);
+        Debug.Log(songposition);
         /*sphere.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         if (SliderGestureDetection(0, 5f, 0, 1, 0.2f))
         {
@@ -133,6 +133,10 @@ public class GestureTest: MonoBehaviour
         }
         g.fingerDatas = data;
         gestures.Add(g);
+    }
+
+    public float getSongPosition() {
+        return songposition;
     }
 
     private Gesture Recognize() 
@@ -280,7 +284,9 @@ public class GestureTest: MonoBehaviour
         if (handForward==true)
         {
             //Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
-            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - simpleTimingMargin) < rhythmCore.getTimeOfSong()))) {
+            //if (currentZPosition >= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - simpleTimingMargin) < rhythmCore.getTimeOfSong())))
+            //{
+                if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > songposition) && ((time - simpleTimingMargin) < songposition))) {
                 Debug.Log("MOVED FORWARD");
                 executed = true;
             }

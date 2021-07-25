@@ -6,8 +6,15 @@ using UnityEngine.UI;
 public class GestureDetected : MonoBehaviour
 {
     public Text m_MyText;
+    public int type ;
+    public int points;
+    public float time;
+    public float velocity;
+    public int track;
+    public string noteName;
+    public bool result=false;
     private SpecialNote test = new SpecialNote(10f, 0,0,0,0);
-    private SimpleNote simpleTest = new SimpleNote(0, 0, 10f, 0, 0);
+    private SimpleNote simpleNote;
     private GameObject gestureRecognition;
     private GameObject rhythmCoreObject;
     private RhythmCore rhythmCore;
@@ -30,7 +37,7 @@ public class GestureDetected : MonoBehaviour
         {
             //m_MyText.text = "Slider Note detected!";
             
-            if (sliderIterator< ((SliderNote)note).spheresData.Length) {
+            /*if (sliderIterator< ((SliderNote)note).spheresData.Length) {
                 if ((rhythmCore.getTimeOfSong() > ((SliderNote)note).spheresData[sliderIterator].atTime + 0.1) && currentBallValidated == false)
                 {
                     sliderIterator = 0;
@@ -69,22 +76,37 @@ public class GestureDetected : MonoBehaviour
 
         return false;
     }
+
+    private INote initializeNote() {
+        simpleNote = new SimpleNote(type, points, time, velocity, track);
+        return simpleNote;
+    }
     // Start is called before the first frame update
     void Start()
     {
         gestureRecognition = GameObject.Find("GestureTest");
-        rhythmCoreObject = GameObject.Find("RhythmCoreObj");
-        rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
+        //rhythmCoreObject = GameObject.Find("RhythmCoreObj");
+        //rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
         myGestureTestCompTable = gestureRecognition.GetComponents<GestureTest>();
         myGestureTestComp = myGestureTestCompTable[0];
-        //m_MyText.text = "No note detected";
+        m_MyText.text = "Nothing happened.";
+        simpleNote = (SimpleNote) initializeNote();
 
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //rightGesture(simpleTest);
+        if (result==false) {
+            if ((myGestureTestComp.getSongPosition() < simpleNote.Time + 0.3) && !(rightGesture(simpleNote))) {
+                result = false;
+            }
+            else {
+                result = true;
+                m_MyText.text = noteName;
+
+            }
+        }
     }
 }
