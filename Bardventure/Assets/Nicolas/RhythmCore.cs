@@ -177,7 +177,7 @@ public class RhythmCore : MonoBehaviour
                 playerScore.ResetMultiplier();
             }
             if (iteratorDetection == notesForDetection.Count) notesForDetection = null;
-            if (notesForDetection[iteratorDetection+1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f)
+            if (notesForDetection != null && notesForDetection[iteratorDetection+1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f)
             {
                 previousNote = notesForDetection[iteratorDetection];
                 iteratorDetection++;
