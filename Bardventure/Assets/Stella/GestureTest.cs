@@ -168,7 +168,7 @@ public class GestureTest: MonoBehaviour
     }
 
 
-    public bool SpecialGestureDetection(float duration, float time, int trackSide)
+    /*public bool SpecialGestureDetection(float duration, float time, int trackSide)
     {
         if (trackSide == 0)
         {
@@ -256,7 +256,7 @@ public class GestureTest: MonoBehaviour
         
         return executed;
     }
-
+    */
 
     public bool SimpleGestureDetection(int trackSide, float time) {
         bool executed = false;
@@ -279,8 +279,9 @@ public class GestureTest: MonoBehaviour
          }
         if (handForward==true)
         {
-            //Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
-            if (currentZPosition>= (firstZPosition + SimplePositionMargin) && (((time + simpleTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - simpleTimingMargin) < rhythmCore.getTimeOfSong()))) {
+            Debug.Log("STILL FORWARD, currentZPosition = " + currentZPosition + "");
+            if (currentZPosition>= (firstZPosition + SimplePositionMargin) )
+            {//&& (((time + simpleTimingMargin) > rhythmCore.getTimeOfSong()) && ((time - simpleTimingMargin) < rhythmCore.getTimeOfSong()))
                 Debug.Log("MOVED FORWARD");
                 executed = true;
             }
@@ -311,7 +312,7 @@ public class GestureTest: MonoBehaviour
             //Debug.Log("x :" + rightHandPrefab.transform.rotation.eulerAngles.x + " y :" + rightHandPrefab.transform.rotation.eulerAngles.y + " z :" + rightHandPrefab.transform.rotation.eulerAngles.z);
             if (((xRotation > 0 && xRotation < 20) || (xRotation < 360 && xRotation > 340)) && ((yRotation < 110 && yRotation > 70)) && ((zRotation < 290 && zRotation > 250))) {
                 handForward = true;
-                //Debug.Log("RIGHT HAND FACING FORWARD");
+                Debug.Log("RIGHT HAND FACING FORWARD");
                 if (firstTimeHandForward==false) {
                     firstTimeHandForward = true;
                     firstZPosition = rightHandPrefab.transform.position.z;
@@ -320,7 +321,7 @@ public class GestureTest: MonoBehaviour
                 
             }
             else {
-                //Debug.Log("RIGHT HAND NOT FACING FORWARD");
+                Debug.Log("RIGHT HAND NOT FACING FORWARD");
                 firstTimeHandForward = false;
                 handForward = false;
                 firstZPosition = -1000;
@@ -368,7 +369,7 @@ public class GestureTest: MonoBehaviour
 
     }
 
-    public bool SliderGestureDetection(int trackSide, float time, float xBallPosition, float yBallPosition, float zBallPosition)
+    /*public bool SliderGestureDetection(int trackSide, float time, float xBallPosition, float yBallPosition, float zBallPosition)
     {
         bool executed = false;
         float xPalmPosition = 0;
@@ -406,6 +407,6 @@ public class GestureTest: MonoBehaviour
         }
         
         return executed;
-    }
+    }*/
 
     }

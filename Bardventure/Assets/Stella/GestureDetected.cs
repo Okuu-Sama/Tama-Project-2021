@@ -29,7 +29,7 @@ public class GestureDetected : MonoBehaviour
         } else if (note is SliderNote)
         {
             //m_MyText.text = "Slider Note detected!";
-            
+            /*
             if (sliderIterator< ((SliderNote)note).spheresData.Length) {
                 if ((rhythmCore.getTimeOfSong() > ((SliderNote)note).spheresData[sliderIterator].atTime + 0.1) && currentBallValidated == false)
                 {
@@ -55,12 +55,12 @@ public class GestureDetected : MonoBehaviour
             }*/
         } else if (note is SpecialNote) {
             //m_MyText.text = "Special Note detected!";
-            myGestureTestComp = myGestureTestCompTable[((SpecialNote)note).TrackSide];
+           /* myGestureTestComp = myGestureTestCompTable[((SpecialNote)note).TrackSide];
             if (myGestureTestComp.SpecialGestureDetection(((SpecialNote)note).Duration, ((SpecialNote)note).Time, ((SpecialNote)note).TrackSide))
             {
                 //m_MyText.text = "Right gesture for special note";
                 return true;
-            }
+            }*/
         }
         /*if (Input.GetKey(KeyCode.Space))
         {
@@ -73,8 +73,8 @@ public class GestureDetected : MonoBehaviour
     void Start()
     {
         gestureRecognition = GameObject.Find("GestureTest");
-        rhythmCoreObject = GameObject.Find("RhythmCoreObj");
-        rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
+        //rhythmCoreObject = GameObject.Find("RhythmCoreObj");
+        //rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
         myGestureTestCompTable = gestureRecognition.GetComponents<GestureTest>();
         myGestureTestComp = myGestureTestCompTable[0];
         //m_MyText.text = "No note detected";
@@ -85,6 +85,6 @@ public class GestureDetected : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //rightGesture(simpleTest);
+        rightGesture(simpleTest);
     }
 }
