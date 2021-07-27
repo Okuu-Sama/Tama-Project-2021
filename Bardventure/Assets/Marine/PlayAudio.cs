@@ -11,7 +11,7 @@ public class PlayAudio : MonoBehaviour
 
     //to remove 
     protected float velocity = 1.0f;
-    protected float spawningLocation = 5.0f;
+    protected float spawningLocation = 10.0f;
     protected float barLocation; 
 
     private int counter = 0;
@@ -32,7 +32,8 @@ public class PlayAudio : MonoBehaviour
         barLocation = GameObject.Find("Bar").transform.position.z;
         audiosource = gameObject.AddComponent<AudioSource>();
         audiosource.clip = (AudioClip)Resources.Load("auclair");
-        musicStart = Mathf.Abs(-4 * Mathf.Log(spawningLocation) - barLocation) / velocity;
+        Debug.Log(spawningLocation + " " + barLocation); 
+        musicStart = Mathf.Abs(4 * Mathf.Log(spawningLocation) - barLocation) / velocity;
         #endregion
 
         #region launch Display
