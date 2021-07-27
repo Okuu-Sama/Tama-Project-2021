@@ -113,8 +113,8 @@ MonoBehaviour:
   Velocity: 0
   SpawningLocation: 0
   sucessEffectPrefab: {fileID: 1855340746554395461, guid: 49011e57640af4346b984abcfb1cf581, type: 3}
-  failedEffectPrefab: {fileID: 0}
   shapePrefab: {fileID: 0}
+  failedEffect: {fileID: 2100000, guid: 976b31720675c1a47be763ebf89dc566, type: 2}
 --- !u!54 &2149010974572240552
 Rigidbody:
   m_ObjectHideFlags: 0

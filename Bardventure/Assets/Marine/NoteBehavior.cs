@@ -22,7 +22,8 @@ public class NoteBehavior : MonoBehaviour
     #endregion
 
     #region gameObject/prefab
-    public GameObject sucessEffectPrefab, failedEffectPrefab, shapePrefab;
+    public GameObject sucessEffectPrefab, shapePrefab;
+    public Material failedEffect; 
     GameObject shape;
     #endregion
 
@@ -137,15 +138,12 @@ public class NoteBehavior : MonoBehaviour
             else if (gameObject.tag == "SliderNote")
             {
 
-                //Debug.Log("DISTANCE BTW COLLIDERS " + Mathf.Sqrt(Mathf.Pow(other.transform.position.z - transform.position.z, 2))); 
-                //Debug.Log("OFFSET " + transform.GetComponent<SphereCollider>().contactOffset + " " + other.contactOffset); 
                 showShape = true;
                 Destroy(gameObject, destroyObjectIn + 2 / Velocity); //destroyObjectIn*2 + 5 / Velocity);
-                //Debug.Log("OBJECT " + transform.position.z); 
-                //Debug.Log("COLLIDER "+other.transform.position);
-
-
+              
             }
+
+        
 
     }
     
@@ -154,18 +152,32 @@ public class NoteBehavior : MonoBehaviour
     // Function to display effect 
     private void Suceed()
     {
-        GameObject visualEffect = Instantiate(sucessEffectPrefab, new Vector3(transform.position.x+0.2f, transform.position.y + 0.2f, transform.position.z + 0.2f), Quaternion.identity) as GameObject;
+        GameObject visualEffect = Instantiate(sucessEffectPrefab, new Vector3(transform.position.x, transform.position.y , transform.position.z ), Quaternion.identity) as GameObject;
         visualEffect.transform.parent = transform;
         visualEffect.transform.SetAsFirstSibling(); 
         
-        transform.GetChild(0).localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        transform.GetChild(0).GetChild(0).localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        transform.GetChild(0).GetChild(1).localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        transform.GetChild(0).GetChild(2).localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        transform.GetChild(0).localScale = new Vector3(0.03f, 0.03f, 0.03f);
+        transform.GetChild(0).GetChild(0).localScale = new Vector3(0.03f, 0.03f, 0.03f);
+        transform.GetChild(0).GetChild(1).localScale = new Vector3(0.03f, 0.03f, 0.03f);
+        transform.GetChild(0).GetChild(2).localScale = new Vector3(0.03f, 0.03f, 0.03f);
 
-       
         Destroy(visualEffect, 0.1f); 
     }
+
+    private void Fail()
+    {
+        if(gameObject.tag == "SimpleNote")
+            GetComponent<MeshRenderer>().material = failedEffect;
+        else if(gameObject.tag == "SpecialNote")
+            transform.GetChild(0).GetComponent<MeshRenderer>().material = failedEffect;
+    }
+
+    private void Fail(int child)
+    {
+        if (gameObject.tag == "SliderNote")
+            transform.GetChild(child).GetComponent<MeshRenderer>().material = failedEffect;
+    }
+
 
     private void colorCercleSliderNoteChildren() // from black to blue 
     {
