@@ -36,7 +36,7 @@ public class NoteBehavior : MonoBehaviour
 
         Time.timeScale = 1;
 
-        startSpawning = -4 * Mathf.Log(SpawningLocation); //to get starting z 
+        startSpawning = 4 * Mathf.Log(SpawningLocation); //to get starting z 
 
         if (this.gameObject.tag == "SpecialNote")
         {
@@ -48,9 +48,9 @@ public class NoteBehavior : MonoBehaviour
 
             float final_z = 10.0f; 
  
-            m2 = -Mathf.Exp(-final_z / 4) / 4;
+            m2 = Mathf.Exp(final_z / 4) / 4;
             rotationOf = Mathf.Abs((m2 - m1) / (1 + m1 * m2));
-            target = Quaternion.Euler(-90-Mathf.Atan(rotationOf) * (180 / Mathf.PI), 0, 0);
+            target = Quaternion.Euler(90, 0, 0);
             
         }
 
@@ -67,7 +67,7 @@ public class NoteBehavior : MonoBehaviour
             float step = Velocity * Time.deltaTime; // calculate distance to move
  
             //Debug.Log("Note behavior step " + step);
-            startSpawning += step;
+            startSpawning -= step;
 
             #region vertical trajectory NOT USED
             //finalPosition.x = this.transform.position.x;
@@ -78,7 +78,7 @@ public class NoteBehavior : MonoBehaviour
             #region exponential trajectory
             finalPosition.x = this.transform.position.x; // 2D trajectory, x doesn't matter
             finalPosition.z = startSpawning;
-            finalPosition.y = Mathf.Exp(-finalPosition.z / 4);//Mathf.Exp(-finalPosition.z / 4);
+            finalPosition.y = Mathf.Exp(finalPosition.z / 4);//Mathf.Exp(-finalPosition.z / 4);
             transform.position = finalPosition;
             #endregion
 
