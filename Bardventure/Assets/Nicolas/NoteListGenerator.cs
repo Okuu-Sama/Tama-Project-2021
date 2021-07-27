@@ -3,19 +3,26 @@ using UnityEngine;
 using System.Linq;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
+using UnityEngine.UI;
 
 //Swap to using UnityEngine.Random because 20% 40% faster ?
 //enum Gestures { Thumbs_up, Victory_sign, Closed, Open };
 public static class NoteListGenerator
 {
-    public static void GenerateList(RhythmCore rhythmCore)
+    public static void GenerateList(RhythmCore rhythmCore , ref Text debugTEXT)
     {
         Debug.Log("Static list generator properly called");
         //Gestures gesture = new Gestures();
         //var values = System.Enum.GetValues(typeof(Gestures));
         System.Random myrand = new System.Random();
         int track = 0;
-        MidiFile mymidi = MidiFile.Read("Assets/Nicolas/Audio/" + rhythmCore.getNameOfSong() + ".mid");
+        MidiFile mymidi = null;
+        mymidi = MidiFile.Read("Assets/Nicolas/Audio/" + rhythmCore.getNameOfSong() + ".mid");
+        if(mymidi == null)
+        {
+            debugTEXT.text = "midi failed to load";
+        }
+        debugTEXT.text = "midi loaded";
         NotesManager notesManager = mymidi.GetTrackChunks().Skip(1).First().ManageNotes();
         NotesCollection notesviolin = notesManager.Notes;
         IEnumerable<Note> listNoteviolin = notesviolin.ToList();

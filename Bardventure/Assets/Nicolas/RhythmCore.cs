@@ -5,8 +5,6 @@ using UnityEditor;
 using UnityEngine.UI;
 using System.IO;
 using System.Linq;
-using Melanchall.DryWetMidi.Core;
-using Melanchall.DryWetMidi.Devices;
 
 public class RhythmCore : MonoBehaviour
 {
@@ -16,6 +14,7 @@ public class RhythmCore : MonoBehaviour
     public Text noteInfo;
     public Text scoreInfo;
     public Text gameplayInfo;
+    public Text debugInfo;
     public GameObject testSphere;
     private string nameOfSong;
     readonly float bpm = 120;
@@ -42,6 +41,9 @@ public class RhythmCore : MonoBehaviour
 
     private Display display;
     private GestureDetected gestureDetection;
+
+    OVRPose vRPose;
+    GameObject currentHDMObj;
 
     public string getNameOfSong()
     {
@@ -103,9 +105,14 @@ public class RhythmCore : MonoBehaviour
         GameObject gestureObj = GameObject.Find("GestureDetected");
         gestureDetection = gestureObj.GetComponent<GestureDetected>();
 
-        NoteListGenerator.GenerateList(this);
+        NoteListGenerator.GenerateList(this, ref debugInfo);
         notesForDetection = notes.ToList();
         previousNote = notesForDetection[0];
+
+        //vRPose = OVRManager.tracker.GetPose();
+        //currentHDMObj = GameObject.Find("OVRCameraRig");
+        //Vector3 vectortest = new Vector3(-8f, 1.3f, 0.48f);
+        //currentHDMObj.transform.position = vectortest;
     }
 
     // Update is called once per frame
@@ -177,11 +184,18 @@ public class RhythmCore : MonoBehaviour
                 playerScore.ResetMultiplier();
             }
             if (iteratorDetection == notesForDetection.Count) notesForDetection = null;
-            if (notesForDetection != null && notesForDetection[iteratorDetection+1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f)
+            if (notesForDetection != null )
             {
-                previousNote = notesForDetection[iteratorDetection];
-                iteratorDetection++;
-                successHit = false;
+                if(iteratorDetection == notesForDetection.Count - 1)
+                {
+                    notesForDetection = null;
+                }
+                else if(notesForDetection[iteratorDetection + 1] != null && notesForDetection[iteratorDetection + 1].Time <= audioSource.time - 0.25f)
+                {
+                    previousNote = notesForDetection[iteratorDetection];
+                    iteratorDetection++;
+                    successHit = false;
+                }
             }
                 
         }
