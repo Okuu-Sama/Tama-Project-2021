@@ -20,9 +20,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Nicolas/TestScene.unity
     guid: 82ea2a946d962f04e8c00db403ca1014
-  - enabled: 1
+  - enabled: 0
     path: Assets/Marine/TestTerrainSky.unity
     guid: 2efcb5dbb30c33942a49a3d7bba75d44
+  - enabled: 1
+    path: Assets/Marine/testTerrain2.unity
+    guid: bd9c1fe8cd3799845960f1d226fd63e9
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 66a4dffd8ae6d9b469495805df578d52, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: beabbcc50882fec4cb8fa360d2539ce1, type: 2}
