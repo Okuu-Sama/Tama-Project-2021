@@ -26,9 +26,8 @@ public class RhythmCore : MonoBehaviour
     int counter=0;
     float songposition = 0;
     float dsptimesong;
-    string path;
-    StreamWriter writer;
-    int token = 0;
+    //string path;
+    //StreamWzriter writer;
     int combo = 0;
     INote previousNote;
     bool successHit = false;
@@ -83,6 +82,11 @@ public class RhythmCore : MonoBehaviour
         return display;
     }
 
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,14 +97,14 @@ public class RhythmCore : MonoBehaviour
         lastbeat = 0;
         crochet = 60f / bpm;
         dsptimesong = (float)AudioSettings.dspTime;
-        path = "Assets/Nicolas/Audio/The_First_Layer-Notes_Data.txt";
-        writer = new StreamWriter(path, true);
-        writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
-        writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
+        //path = "Assets/Nicolas/Audio/The_First_Layer-Notes_Data.txt";
+        //writer = new StreamWriter(path, true);
+        //writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
+        //writer.WriteLine("Start: " + (AudioSettings.dspTime - dsptimesong).ToString());
         display = new Display( Resources.Load("Notes/SimpleNote") as GameObject ,
          Resources.Load("Notes/SpecialNote") as GameObject,
          Resources.Load("Notes/SliderNote") as GameObject,
-        1.0f, 5.0f, GameObject.Find("OVRCameraRig").transform.position);
+        1.0f, 10.0f, GameObject.Find("OVRCameraRig").transform.position);
 
         GameObject gestureObj = GameObject.Find("GestureDetected");
         gestureDetection = gestureObj.GetComponent<GestureDetected>();
@@ -118,7 +122,7 @@ public class RhythmCore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        writer.Write("-");
+        //writer.Write("-");
         songposition = (float)(AudioSettings.dspTime - dsptimesong) * audioSource.pitch;
         songInfo.text = "Pitch of the song: " + audioSource.pitch.ToString() +
                         " Audio time (source):" + audioSource.time.ToString() +
@@ -142,6 +146,7 @@ public class RhythmCore : MonoBehaviour
             lastbeat += crochet;
         }
 
+        
         if(notes != null && notes[iteratorDisplay].Time <=  songposition)
         {
             //display.DisplayNote(notes[iterator].GetType(),notes[iterator].);
@@ -200,7 +205,7 @@ public class RhythmCore : MonoBehaviour
                 
         }
 
-            if (Input.GetKeyDown(KeyCode.K))
+        /*if (Input.GetKeyDown(KeyCode.K))
         {
             if (token == 0)
             {
@@ -217,6 +222,6 @@ public class RhythmCore : MonoBehaviour
         {
             playerScore.ScoreUp(100);
             playerScore.MultiplierUp();
-        }
+        }*/
     }
 }
