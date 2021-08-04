@@ -45,7 +45,7 @@ public class GestureTest: MonoBehaviour
 
     //Roration tests for simple note
 
-    private GameObject leftHandPrefab;
+    public GameObject leftHandPrefab;
     private GameObject rightHandPrefab;
     private GameObject cube;
     private GameObject cube2;
@@ -63,6 +63,9 @@ public class GestureTest: MonoBehaviour
     private GameObject rhythmCoreObject;
     private RhythmCore rhythmCore;
 
+    //Hub
+    public int victoryCounter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +77,8 @@ public class GestureTest: MonoBehaviour
         sphere = GameObject.Find("Sphere");
         //dsptimesong = (float)AudioSettings.dspTime;
         rhythmCoreObject = GameObject.Find("RhythmCoreObj");
-        rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>();
+        if (rhythmCore!=null) { rhythmCore = rhythmCoreObject.GetComponent<RhythmCore>(); }
+        
 
 
     }
@@ -94,7 +98,7 @@ public class GestureTest: MonoBehaviour
         {
             sphere.GetComponent<Renderer>().material.color = new Color(0, 0, 255);
         }*/
-        
+
         /*cube.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         cube2.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         fingerBones = new List<OVRBone>(skeleton.Bones);*/
@@ -107,20 +111,31 @@ public class GestureTest: MonoBehaviour
         }*/
 
         //specialGesture = SpecialGestureDetection(5f, 10f,0);
-        /*Gesture currentGesture = Recognize();
+        /*fingerBones = new List<OVRBone>(leftHandPrefab.GetComponent<OVRSkeleton>().Bones);
+        Gesture currentGesture = Recognize();
         bool hasRecognized = !currentGesture.Equals(new Gesture());
         if (hasRecognized && !currentGesture.Equals(previousGesture))
         {
             Debug.Log("Gesture found:" + currentGesture.name);
             previousGesture = currentGesture;
             currentGesture.onRecognized.Invoke();
-        }
-        else 
+        }*/
+        /*else 
         {
             Debug.Log("No gesture detected.");
         }*/
+        if (GameObject.Find("HubGesture")!=null) {
+
+            HubGestureDetection();
+            
+        }
+        
     }
 
+
+    public int getVictoryCounter() {
+        return victoryCounter;
+    }
     private void Save()
     {
         Gesture g = new Gesture();
@@ -135,7 +150,7 @@ public class GestureTest: MonoBehaviour
         gestures.Add(g);
     }
 
-    private Gesture Recognize() 
+    public Gesture Recognize() 
     {
         Gesture currentGesture = new Gesture();
         float currentMin = Mathf.Infinity;
@@ -167,6 +182,28 @@ public class GestureTest: MonoBehaviour
         return currentGesture;
     }
 
+
+    public void HubGestureDetection() {
+        fingerBones = new List<OVRBone>(leftHandPrefab.GetComponent<OVRSkeleton>().Bones);
+        Gesture currentGesture = Recognize();
+        bool hasRecognized = !currentGesture.Equals(new Gesture());
+        if (hasRecognized && !currentGesture.Equals(previousGesture) )
+        {
+            if (currentGesture.Equals(gestures[1])) {
+                if (victoryCounter==0) {
+                    victoryCounter = 1;
+                }
+                else
+                {
+                    victoryCounter = 0;
+                }
+            }
+            
+            //Debug.Log("Gesture found:" + currentGesture.name);
+            previousGesture = currentGesture;
+            currentGesture.onRecognized.Invoke();
+        }
+    }
 
     public bool SpecialGestureDetection(float duration, float time, int trackSide)
     {
