@@ -21,9 +21,10 @@ public class HubGesture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (myGestureTestComp.getVictoryCounter() == 1)
         {
-            //function pour ouvrir ta fenêtre
+            GameObject.Find("TextHub").transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = "Hello";
         }
         else { 
             //function pour la fermer ?
