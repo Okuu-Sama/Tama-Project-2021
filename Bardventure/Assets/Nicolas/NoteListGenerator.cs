@@ -4,24 +4,81 @@ using System.Linq;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using UnityEditor;
+using System.IO;
 
 //Swap to using UnityEngine.Random because 20% 40% faster ?
 //enum Gestures { Thumbs_up, Victory_sign, Closed, Open };
 public static class NoteListGenerator
 {
+
+    
     public static void GenerateList(RhythmCore rhythmCore , ref Text debugTEXT)
     {
         Debug.Log("Static list generator properly called");
+        
+        
         //Gestures gesture = new Gestures();
         //var values = System.Enum.GetValues(typeof(Gestures));
+        string gameAssetsPath = Application.dataPath;
+        string oculusPersistentPath = Application.persistentDataPath;
+        string oculusTempPath = Application.temporaryCachePath;
+        string oculusStringPath = Application.streamingAssetsPath;
         System.Random myrand = new System.Random();
         int track = 0;
+
+        WWW filereader = null;
+        //filereader.url;
+        string midiLocation = rhythmCore.getNameOfSong() + ".mid";
+        string pathToMidi = Path.Combine(oculusStringPath, midiLocation);
         MidiFile mymidi = null;
-        mymidi = MidiFile.Read("Assets/Nicolas/Audio/" + rhythmCore.getNameOfSong() + ".mid");
-        if(mymidi == null)
+
+        debugTEXT.text = "reading midi file from url jar ??";
+
+        if (Application.platform == RuntimePlatform.Android)
         {
-            debugTEXT.text = "midi failed to load";
+            filereader = new WWW(pathToMidi);
+            debugTEXT.text = "reached platform specific condition";
+            UnityWebRequest androidFileReader = UnityWebRequest.Get(pathToMidi);
+            androidFileReader.SendWebRequest();
+            //while (!androidFileReader.downloadHandler.isDone) { }
+            if(filereader.isDone)
+            {
+                debugTEXT.text = "www reader is done";
+            }
+            if(androidFileReader.downloadHandler.isDone)
+            {
+                debugTEXT.text = "properly finished accessing the file";
+            }
+            MemoryStream contentOfMidi = new MemoryStream(androidFileReader.downloadHandler.data);
+            mymidi = MidiFile.Read(contentOfMidi);
+            if (mymidi == null)
+            {
+                debugTEXT.text = "midi failed to load";
+            }
         }
+        else
+        {
+            mymidi = MidiFile.Read(Application.streamingAssetsPath + "/Midi/" + rhythmCore.getNameOfSong() + ".mid");
+            if (mymidi == null)
+            {
+                debugTEXT.text = "midi failed to load";
+            }
+        }
+
+        //debugTEXT.text = "WWW class: " + filereader.url;
+        
+        //mymidi = MidiFile.Read(gameAssetsPath + "/Nicolas/Audio/" + rhythmCore.getNameOfSong() + ".mid");
+        //mymidi = MidiFile.Read(Application.streamingAssetsPath + "/Midi/" + rhythmCore.getNameOfSong() + ".mid");
+        //if (mymidi == null)
+        //{
+       //     debugTEXT.text = "midi failed to load";
+        //}
+        //var textMidi = Resources.Load<TextAsset>("Midi/" + rhythmCore.getNameOfSong());
+        //MemoryStream stream = new MemoryStream(textMidi.bytes);
+        //mymidi = MidiFile.Read(stream);
+
         debugTEXT.text = "midi loaded";
         NotesManager notesManager = mymidi.GetTrackChunks().Skip(1).First().ManageNotes();
         NotesCollection notesviolin = notesManager.Notes;

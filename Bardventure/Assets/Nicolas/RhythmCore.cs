@@ -93,7 +93,7 @@ public class RhythmCore : MonoBehaviour
         //audioSource.PlayDelayed(10f);
         nameOfSong = audioSource.clip.name;
         playerScore = new PointsManager();
-        scoreInfo.text = playerScore.GetScore().ToString();
+        //scoreInfo.text = playerScore.GetScore().ToString();
         lastbeat = 0;
         crochet = 60f / bpm;
         dsptimesong = (float)AudioSettings.dspTime;
@@ -106,9 +106,17 @@ public class RhythmCore : MonoBehaviour
          Resources.Load("Notes/SliderNote") as GameObject,
         1.0f, 10.0f, GameObject.Find("OVRCameraRig").transform.position);
 
+        string gameAssetsPath = Application.dataPath;
+        string oculusPersistentPath = Application.persistentDataPath;
+        string oculusTempPath = Application.temporaryCachePath;
+        string oculusStringPath = Application.streamingAssetsPath;
+        noteInfo.text = "datapath: " + gameAssetsPath;
+        scoreInfo.text = "persistentdatapath: " + oculusPersistentPath;
+        gameplayInfo.text = "temppath: " + oculusTempPath;
+
         GameObject gestureObj = GameObject.Find("GestureDetected");
         gestureDetection = gestureObj.GetComponent<GestureDetected>();
-
+        debugInfo.text = "going to generate list of note";
         NoteListGenerator.GenerateList(this, ref debugInfo);
         notesForDetection = notes.ToList();
         previousNote = notesForDetection[0];
